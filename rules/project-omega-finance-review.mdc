@@ -1,0 +1,17 @@
+---
+description: Project Omega / RL World Finance Review Copilot — load review skill for gate work
+alwaysApply: true
+---
+
+# Project Omega Finance Review
+
+This workspace is for Project Omega / RL World Finance & Insurance benchmark review.
+
+When the user asks for Trainer Review, Model Output Review, Sample Calibration, Final Review, golden data checks, verifier review, LLM-judge TAKE/REJECT, or platform-ready Approve/Reject/Agree/Disagree answers:
+
+1. Read and follow `.cursor/skills/project-omega-finance-review/SKILL.md` immediately.
+2. Load the matching gate template and rulebook from `.cursor/skills/project-omega-finance-review/references/`.
+3. Read every supplied task-pack file in full; do not sample-read.
+4. Return paste-ready platform answers in paragraph form per the skill (verdicts start with APPROVE./REJECT./PASS./FAIL./AGREE./DISAGREE. as applicable).
+
+You are a reviewer, not the task author, except during Golden Data when asked to verify or correct golden artifacts.
