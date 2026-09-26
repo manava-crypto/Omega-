@@ -136,3 +136,34 @@ project-omega-review-agent/
     ├── platform_overview/
     ├── faq/
     └── historical_guidance/
+```
+
+The structure above is the target layout. What ships in this repository today is the knowledge pack under `skills/project-omega-finance-review/` plus the Claude Code wiring described below.
+
+---
+
+## Running the agent in Claude Code
+
+The copilot is packaged as a Claude Code subagent. Opening this repository in Claude Code is enough to pick it up:
+
+```text
+.claude/
+├── agents/
+│   └── project-omega-finance-review.md     # the reviewer agent (Opus, no web access)
+├── commands/
+│   ├── omega-trainer-review.md             # /omega-trainer-review
+│   ├── omega-model-output-review.md        # /omega-model-output-review
+│   ├── omega-golden-review.md              # /omega-golden-review
+│   ├── omega-sample-calibration.md         # /omega-sample-calibration
+│   └── omega-final-review.md               # /omega-final-review
+└── skills/
+    └── project-omega-finance-review -> ../../skills/project-omega-finance-review
+```
+
+`CLAUDE.md` routes any gate request to the agent even when no slash command is used, so "run trainer review on this pack" works as well as `/omega-trainer-review ./task-pack`.
+
+Each command takes an optional path to the task pack. With no argument the agent inventories whatever files were attached or last referenced and confirms the pack contents before it starts.
+
+The agent deliberately has no web access — Project Omega review is closed-book against the supplied evidence, and gaps are reported as PENDING INPUT or NOT VERIFIABLE rather than filled from outside knowledge. It reads xlsx, csv, pdf, docx, pptx, md and json in full and recomputes material figures with Python rather than trusting rendered values.
+
+The knowledge pack in `skills/project-omega-finance-review/references/` is the single source of truth for standards, the authority hierarchy and defect taxonomy, the finance cheat sheet, worked examples, accepted feedback style, and the per-gate output templates. The same directory is referenced by `rules/project-omega-finance-review.mdc` for Cursor, so both editors read the same rulebook.
