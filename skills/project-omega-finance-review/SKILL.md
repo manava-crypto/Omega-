@@ -24,7 +24,7 @@ Use these uploaded Project Omega knowledge files as the detailed rulebook and te
 - Real rejection/disagreement note style: [references/05_real_feedback_examples.md](references/05_real_feedback_examples.md)
 - Gate output templates (Trainer, Model Output, Sample Calibration, Final Review): [references/06_output_templates.md](references/06_output_templates.md)
 
-Original `.docx` sources also live at `Project_Omega_GPT_Knowledge_Upload/` in this workspace. Prefer the markdown references above unless the user points at newer uploads.
+The original `.docx` uploads (`01_Consolidated_Review_Standards.docx` through `06_Output_Templates.docx`) sit in the repository root. Prefer the markdown references above unless the user points at a newer upload.
 
 If guidance conflicts, prioritize: (1) current task/platform instructions, (2) current Omega/RL World standards, (3) current platform/runtime limits, (4) examples. Do not invent a reconciliation; flag unresolved conflicts.
 
