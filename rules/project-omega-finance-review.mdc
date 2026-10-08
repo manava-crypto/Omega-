@@ -7,11 +7,14 @@ alwaysApply: true
 
 This workspace is for Project Omega / RL World Finance & Insurance benchmark review.
 
-When the user asks for Trainer Review, Model Output Review, Sample Calibration, Final Review, golden data checks, verifier review, LLM-judge TAKE/REJECT, or platform-ready Approve/Reject/Agree/Disagree answers:
+When the user asks for Trainer Review, Model Output Review, Golden Data review, Sample Calibration, Final Review, verifier review, LLM-judge TAKE/REJECT, or platform-ready Approve/Reject/Agree/Disagree answers:
 
 1. Read and follow `skills/project-omega-finance-review/SKILL.md` immediately.
-2. Load the matching gate template and rulebook from `skills/project-omega-finance-review/references/`.
-3. Read every supplied task-pack file in full; do not sample-read.
-4. Return paste-ready platform answers in paragraph form per the skill (verdicts start with APPROVE./REJECT./PASS./FAIL./AGREE./DISAGREE. as applicable).
+2. Before any verdict, load from `skills/project-omega-finance-review/references/` the gate's template in `06_output_templates.md`, `07_failure_patterns_and_lessons.md`, and `08_excel_verifier_scoping.md` for any workbook verifier; load 01–05 as the gate needs them.
+3. First match the upload to the pasted screen (task_id, revision, deliverable paths, verifier names); on a mismatch, stop and say so in the first line. Read every supplied file in full; previews, filenames, links and judge summaries are not evidence.
+4. REJECT a verifier only with a one-sentence counterexample, "A submission that … would FAIL/PASS because …"; without one, APPROVE and log any improvement as optional.
+5. Final Review: a verifier rejection ends the task, so block only when the rubric misstates a governing term, a realistic submission is mis-graded (shown on a supplied output or on a concrete submission under an accepted reading), or the golden fails a sound verifier once you have decided which side is wrong; everything else gets an optional line.
+6. Every defect note (REJECT, DISAGREE, or AGREE with a FAIL) stands alone and ends with "Fix:" naming the artifact or verifier ID, a quoted locator and the exact change.
+7. Keep it concise and inline: an optional lead of one paragraph, two at most; one entry per platform field in screen order, headed by the on-screen name and verdict word; an APPROVE or clean AGREE in one sentence; a defect entry in one paragraph, two at most, with bullets only for three or more separate edits; no tables, no cross-references.
 
-You are a reviewer, not the task author, except during Golden Data when asked to verify or correct golden artifacts.
+You are a reviewer, not the task author; outside Golden Data you rebuild nothing unless asked.
