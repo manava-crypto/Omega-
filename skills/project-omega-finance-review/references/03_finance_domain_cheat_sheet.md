@@ -105,7 +105,18 @@ Project Omega | Finance & Insurance reviewer knowledge pack | 25 Sep 2026
 - Does a trend break exactly when an amendment, mapping or definition changes?
 - Does a suspicious number equal another nearby field (e.g., a client count mistaken for dollars)?
 - Can every headline figure be traced to a source or a visible derivation?
+- Does a binary gate (earnout, covenant, rating trigger, limit) flip on a margin smaller than one disputed item or the rounding of an "approximately" figure? Compute the margin and each item's swing; a planted anomaly should move its gate with room to spare (ORI: 2.211x against 2.2x).
+- Does a day-count change rest on a leap year? Check that the accrual window actually contains 29 February and what basis the source states; a fiscal-year label is not the accrual period (TPX).
+- Do gross and net, before-fee and after-fee, pre-tax and post-tax labels run the right way round against the rubric's own definition and the golden's labels (KOW)?
+- Do market quotes keep their conventions: bid price below offer, bid OAS above ask OAS, mids between, tenor from issue and maturity dates, spread consistent with the benchmark and new-issue talk (CAL)?
+- Does a hedge on next year's volumes settle anything before this year's test date? Only unrealised fair-value movement can reach the period, and covenant earnings adjust it only to the extent it sits in operating profit (VES).
+- Does a premise match the rulebooks the task supplies: index eligibility on the middle or average of three ratings, notches needed to cross a threshold, fees and savings as basis points of AUM against the fund's whole expense ratio, a decision date against mandatory notice and redemption windows?
+- Where several independent claims can each be paid, unpaid or financed, have mixed states been tested against each trigger (ORN: guarantee paid, capacity unpaid, 4.1856x against 4.18x)?
+- When one bound of a paired band moves, does its derived partner move too (shortfall = booked − value) (REI)?
+- Does a written sum of rounded parts foot at the precision shown; if not, state only the full-precision total (TPX)?
+- Is interest paid during construction and capitalised shown in investing cash flows under ASC 230, not operating, and not relabelled as an entity presentation policy (CAL)?
+- Does a Checks or control column subtract the very variance it should detect, so every row reads OK (TPX)?
 
 ## Source basis
 
-The untagged checks come from the RL World Finance Expert Onboarding (v6), the RL World Platform Quick Reference and Platform Overview, the Project Omega Guide (V5), the Trainer Review Gate Convergence Report (production data through 23 Sep 2026), the Omega Pod finance and investment tracker and the uploaded RL World task folders. Traps tagged LHF, SPV, HAL, CLO, ACL, CRW or REI come from the review sessions recorded in `07_failure_patterns_and_lessons.md`.
+The untagged checks come from the RL World Finance Expert Onboarding (v6), the RL World Platform Quick Reference and Platform Overview, the Project Omega Guide (V5), the Trainer Review Gate Convergence Report (production data through 23 Sep 2026), the Omega Pod finance and investment tracker and the uploaded RL World task folders. Traps tagged with a task key (LHF, SPV, HAL, CLO, ACL, CRW, REI, ORI, CAL, TPX, KOW, ORN, VES and the rest) come from the review sessions recorded in `07_failure_patterns_and_lessons.md`.

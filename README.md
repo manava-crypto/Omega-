@@ -4,7 +4,7 @@ Project Omega finance-review copilot for RL World. It reviews Trainer Review, Mo
 
 ## Overview
 
-The agent supports an expert reviewer across the RL World review lifecycle; it does not replace expert judgment. It treats automated QC and LLM-judge output as claims to audit, not as an answer key. The rulebook was rebuilt from failure patterns mined from review sessions on seven task packs; reference 07 records each pattern with the rule and check that prevent it.
+The agent supports an expert reviewer across the RL World review lifecycle; it does not replace expert judgment. It treats automated QC and LLM-judge output as claims to audit, not as an answer key. The rulebook was rebuilt from failure patterns mined from review sessions on seventeen task packs; reference 07 records each pattern with the rule and check that prevent it, and reference 09 records how the platform's judge checks and Auto QC actually define and score each question.
 
 ## Review stages
 
@@ -27,7 +27,9 @@ The Model Output Review, Golden Data and Sample Calibration rules are transferre
 - Authority and chronology are resolved explicitly. An effective executed amendment normally governs the relevant period over a stale summary field, and a ledger or transactional record normally outweighs a presentation summarising it.
 - Defects go to their origin. A source-data problem is not disguised as a verifier problem, a bad verifier does not cause a correct artifact to be rejected, and an unclear prompt is not repaired by inventing scoring rules downstream. A verifier is never weakened to cover an upstream defect.
 - Counterexample discipline. A verifier is rejected only with a one-sentence counterexample, "A submission that … would FAIL/PASS because …", and approved only after the probe battery in reference 07 finds none.
-- One owner per value. Redundant and duplicative verifiers are a real defect; consolidation is as legitimate as splitting.
+- The on-screen check decides. Each judge check is answered by the Description pasted with it; overlap and atomicity follow the version of the check on screen, and a design documented in the task's verifier plan is not a defect.
+- One owner per obligation. Redundant and duplicative verifiers are a real defect; consolidation is as legitimate as splitting. Importance (core or secondary) is never a reason to reject.
+- Plain words. Notes read as an experienced finance reviewer would write them, with no file internals or tool names.
 
 ## Output standard and the Final Review bar
 
@@ -63,7 +65,8 @@ Omega-/
             ├── 05_real_feedback_examples.md
             ├── 06_output_templates.md               # gate templates A–G
             ├── 07_failure_patterns_and_lessons.md   # probe battery, pre-send checks
-            └── 08_excel_verifier_scoping.md         # workbook scoping, extractor limits
+            ├── 08_excel_verifier_scoping.md         # workbook scoping, extractor limits
+            └── 09_platform_checks_and_auto_qc.md    # platform check definitions, Auto QC
 ```
 
 ## Running the agent in Claude Code
