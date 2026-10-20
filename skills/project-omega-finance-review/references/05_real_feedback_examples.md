@@ -92,9 +92,9 @@ Verbatim or near-verbatim from submitted turns, adjusted only to the current not
 
 ### Final Review
 
-#### 15. Double penalty shown on a real output (LHF v24; accepted)
+#### 15. Double penalty shown on a real output (LHF v24; accepted, restated to the current gate-visibility and self-contained rules)
 
-workbook_performance_fee_mechanics — REJECT. The clauses "accept a separate recorded redeemed-portion result of $0 that is formula-linked to the missing-valuation input…" and the FAIL limb "or an indicative redemption-date proxy is used to produce the recorded redeemed-portion result" grade what workbook_performance_fee_redeemed_portion already owns. Model 1's mechanics otherwise match the golden, yet it fails both verifiers for one defect: Perf_Fee_Calc!C66 =SUM(S5:S16), a month-end proxy. Fix: delete both clauses and end the criterion with "The redeemed-portion test must be computed by formula at each redemption (it may be labeled an indicative cross-check); how the recorded redeemed-portion result is derived is graded only by workbook_performance_fee_redeemed_portion."
+workbook_performance_fee_mechanics — REJECT. The clauses "accept a separate recorded redeemed-portion result of $0 that is formula-linked to the missing-valuation input…" and the FAIL limb "or an indicative redemption-date proxy is used to produce the recorded redeemed-portion result" grade the redeemed-portion derivation, which another verifier on this workbook owns. A workbook whose mechanics match the golden but whose redeemed-portion result comes from a month-end proxy (for example =SUM(S5:S16) over the month-end column) fails both verifiers for one defect. Fix: delete both clauses and end the criterion with "The redeemed-portion test must be computed by formula at each redemption (it may be labeled an indicative cross-check); this criterion assesses only the performance-fee mechanics; ignore how the recorded redeemed-portion result is derived when scoring it."
 
 #### 16. Governing term misstated (LHF v24; accepted)
 
