@@ -12,13 +12,14 @@ APPROVE only after the probe battery in 07 finds no counterexample. Run it every
 
 Route each defect to the layer where it originates: broken inputs to Source Data, an unclear instruction to Prompt, a wrong computation to Artifact or Golden, and unfair, vague, duplicated or ungrounded grading to Verifier. Never weaken a verifier, or add an escape clause, to cover an upstream defect.
 
-## 2. Five gates and the object being judged
+## 2. Six gates and the object being judged
 
 - **Trainer Review** (task integrity). Is the task itself realistic, supported, coherent, executable and gradeable? Order: Task Design → each Source Data file → Prompt → Verifiers → LLM judge checks → Escalations. If defective: reject only the defective artifact; regenerate and re-review.
 - **Model Output Review** (model quality). Did each attempt correctly perform the requested finance work from the supplied evidence? If defective: log every material issue by deliverable and severity.
 - **Golden Data** (benchmark answer). Is the selected solution expert-grade, complete, traceable and internally consistent? If defective: fix the root cause and every downstream consequence.
 - **Sample Calibration** (scoring quality). Do the verifiers grade real obligations fairly and consistently? If defective: grade blindly, then reconcile; flag bad verifiers or golden defects.
 - **Final Review** (ship quality). Does the entire latest package survive an independent audit? If defective: block only on the §9 bar; everything else is an optional line.
+- **External QC** (post-ship check, the last stage before TFRL). Is each QC finding a true positive? Only verifier.json changes are in scope; an agreed prompt, source or golden finding rejects the task. Standard in §9A, workflow in reference 10.
 
 Answer only the gate pasted, every field, in screen order. Verdict words: APPROVE/REJECT for artifacts and verifiers, AGREE/DISAGREE for LLM judge and Auto QC checks, TAKE/REJECT for each remediation item, PASS/FAIL for grades, PENDING INPUT where a needed file is missing, NOT VERIFIABLE where evidence cannot settle it.
 
@@ -94,7 +95,7 @@ Reject or log an attempt on these axes:
 - **Data integrity:** amounts are internally inconsistent, malformed, duplicated, stale, or cannot reconcile.
 - **Coherence and integration:** workbook, memo and deck disagree, or the recommendation is not supported by the analysis.
 
-Transferred lessons: log each issue as its own entry to the §11 note standard, with its severity where the form asks, keeping analytical root causes apart from presentation. The attempts are the realistic-submission test bed when judging verifier fairness (§1).
+On the platform form the first six axes are per output file and coherence sits in the Additional Feedback screen, split across Approach & direction, Task understanding & scope, Reasoning & assumptions, Cross-file data consistency, and Coherence & integration. Log each issue once, as its own entry, keeping analytical root causes apart from presentation. Severity on this form is Critical or Nice to have only: Critical for any wrong value, fact, formula or check result, an unfollowed instruction, invented support, or missing or broken required content; Nice to have only when every displayed figure is correct and nothing required is missing. Never lower a severity because the conclusion holds, the convention is disclosed or the figure looks reasonable. The attempts are the realistic-submission test bed when judging verifier fairness (§1).
 
 ## 7. Golden Data quality standard
 
@@ -109,13 +110,16 @@ Transferred lessons: APPROVE when the golden passes every verifier and its mater
 
 ## 8. Sample Calibration standard
 
-- Blind grade first. Reveal the LLM judge only after the expert verdict is recorded.
-- For every verifier: source of requirement, one concept, clear bar, sufficient grader evidence, criticality.
-- Coverage gaps add checks only for real obligations. Redundancy removes duplicate ownership.
-- If the golden fails a sound verifier, fix the golden; do not weaken the verifier.
-- If a verifier is unfair, vague, overlapping or impossible under the runtime, flag it for regeneration with a Fix: note to the §11 standard.
+- Blind grade first: PASS or FAIL per attempt before the judge's grade is read, then resolve every disagreement by agreeing with the judge or standing by your grade with evidence.
+- For every verifier answer the five platform questions: where the requirement is sourced, whether it tests one thing, whether the bar is clear, whether the grader has what it needs, and whether failure is Critical or Nice to have.
+- Each answer has a regeneration effect: "Not required anywhere" deletes the check, "several things" splits it into one check per listed concept, "vague" rewords it in place, a coverage gap adds one, a redundancy choice keeps one and deletes the rest, and Critical or Nice to have changes only the weight. Nothing else adds or deletes a verifier.
+- Split by concept, never by detail: one yes/no question whose details add up to one answer stays one check, even when it is not perfectly atomic.
+- No vague qualifiers ("appropriate", "reasonable", "materially", "approximately") unless pinned to a concrete criterion; name the exact facts or values a grader is missing.
+- The set: every required outcome graded by a check a wrong answer fails, a primary-correctness check per required file, checks that separate the golden from a plausible-but-wrong attempt, the hardest analytical steps graded, no two checks on the same condition and artifact, each check gradeable alone, a check penalising unsolicited additions where the task names forbidden artifacts, and no existence-only, filename-only or cross-file checks (mark any the platform pushes "Not required anywhere").
+- If the golden fails a verifier, decide which is wrong: rework a flawed verifier and leave the golden alone; fix the golden against a sound verifier, never by weakening it, except where the verifier carries a being-updated note.
+- After regeneration, re-review NEW, CHANGED and GRADE CHANGED checks.
 
-Transferred lessons: decide which verifiers to flag with the probe battery (§1), and record the judge panel (config.models) in use, noting any judge-panel seat change.
+Decide which checks to mark with the probe battery (§1); template E in 06 holds the form.
 
 ## 9. Final Review standard
 
@@ -127,7 +131,7 @@ A remaining material issue in any artifact is terminal for the current package, 
 - (b) a realistic submission is mis-graded, shown on a supplied output or on a concrete submission under an accepted reading;
 - (c) the golden fails a sound verifier, once you have decided which side is wrong.
 
-Do not reject for cosmetic or pipeline-only issues that do not impair correctness, usability, fairness or gradeability. Everything outside the bar gets an optional line: stale figures that change no result, hypothetical overlap or bundling, reasonable placement or format readings, extractor observability (NOT VERIFIABLE plus escalation), weight or difficulty labels, mechanical source slips, and planned difficulty. Overlap blocks only when a supplied or concretely constructed submission loses two verifiers for one defect.
+Do not reject for cosmetic or pipeline-only issues that do not impair correctness, usability, fairness or gradeability. Everything outside the bar gets an optional line: stale figures that change no result, hypothetical overlap or bundling, reasonable placement or format readings, extractor observability (NOT VERIFIABLE plus escalation), weight or difficulty labels, mechanical source slips, and planned difficulty. Overlap blocks only when a supplied or concretely constructed submission loses two verifiers for one defect. A placement or format reading is optional only when the prompt supports it: a PASS condition the prompt never asks for (a literal figure, label, closed list or fixed placement) or a single accepted reading where the prompt and sources allow another fails a correct answer and meets (b), as External QC solver runs confirmed for every such approval. Grade the golden literally against every FAIL clause and test each pass case against the governing standard. Approval sends the task to External QC, where only verifier.json can change, so approve only a final task.
 
 Judge in this order:
 
@@ -138,6 +142,10 @@ Judge in this order:
 
 Give one short paragraph each for Task Design, Source Documents and Golden, then one line per verifier in screen order, notes under REJECTs only. Close with "Overall REJECT, because one verifier rejection ends the task: <names>." or "Overall APPROVE." If a REJECT rests on a branch no submission took, say so and keep it. Template F is in 06; the worked case is in 07.
 
+## 9A. External QC standard
+
+External QC follows Final Review. Rework Pending is the only decision point: give every finding agree (true positive) or disagree (false positive). Agree only when the finding's own complaint holds in the current verifier.json and needs a change; a grader or infrastructure fault that no verifier change cures is a disagree with an escalation. Only verifier.json changes are in scope: an agreed finding against the prompt, source packet or golden rejects the task (clone and re-author), so look for a sound verifier-only cure before agreeing that a defect lives elsewhere. Disagreeing with every finding approves the task; agreeing only with verifier findings sends a fix request to the QC tracker. Because nothing downstream catches an error, every verdict passes the four-pass review in reference 10 before it is sent.
+
 ## 10. Severity guide
 
 - **Critical.** The core decision or answer is wrong, the task is unsolvable, source integrity is broken, or the final package cannot be trusted. Examples: a wrong authority changes borrowing capacity; a missing source makes a required conclusion impossible; the golden recommends the opposite action because of a bad calculation.
@@ -145,11 +153,11 @@ Give one short paragraph each for Task Design, Source Documents and Golden, then
 - **Minor.** The correct answer remains intact but quality, traceability or completeness is reduced. Examples: one stale reference, an isolated mislabeled figure, an incomplete locator.
 - **Cosmetic.** No substantive effect on finance reasoning or scoring. Examples: a formatting inconsistency, a typo, raw floating-point residue hidden by a correct display format.
 
-At Trainer Review a finding blocks when it meets the §1 counterexample test, misleads the judge, or plants a wrong fact that is being copied into new verifiers. Classify each fix once, with the same severity at every step; everything else goes once in the closing "Optional: …" line, and an optional item becomes blocking when it starts propagating.
+These four levels are the reviewer's own scale for Trainer Review and Final Review notes; where a platform form asks for severity (Model Output Review and the golden step), use only its two values, Critical and Nice to have (§6). At Trainer Review a finding blocks when it meets the §1 counterexample test, misleads the judge, or plants a wrong fact that is being copied into new verifiers. Classify each fix once, with the same severity at every step; everything else goes once in the closing "Optional: …" line, and an optional item becomes blocking when it starts propagating.
 
 ## 11. Notes and pre-submit checklist
 
-Every defect note (REJECT, DISAGREE, or AGREE with a FAIL) stands alone in one paragraph, two at most, about 120 words: Location and Evidence (quoted locator, cell, figure) → Implication, stated as the counterexample → Exact Fix, introduced by "Fix:" and naming the artifact or verifier ID, the locator and the exact change (what to delete, the replacement, which conflicting version to keep). A multi-item note gives the ID and change for each item; bullets only for three or more separate edits. A finding that belongs elsewhere reads "Fix: No change required to this file for this check; the fix belongs in <file>." APPROVE or a clean AGREE is one sentence of at most 30 words. No cross-references, paragraph counts or hedges; one definite instruction per item, and a rejected remediation item is marked as not to be adopted. The full output rules (C1–C9) are in SKILL.md.
+Every defect note (REJECT, AGREE with a FAIL, or DISAGREE with a PASS) stands alone in one paragraph, two at most, about 120 words: Location and Evidence (quoted locator, cell, figure) → Implication, stated as the counterexample → Exact Fix, introduced by "Fix:" and naming the artifact or verifier ID, the locator and the exact change (what to delete, the replacement, which conflicting version to keep). A multi-item note gives the ID and change for each item; bullets only for three or more separate edits. A finding that belongs elsewhere reads "Fix: No change required to this file for this check; the fix belongs in <file>." APPROVE or a clean AGREE is one sentence of at most 30 words. No cross-references, paragraph counts or hedges; one definite instruction per item, and a rejected remediation item is marked as not to be adopted. The full output rules (C1–C9) are in SKILL.md.
 
 Before submitting, confirm:
 
@@ -210,4 +218,4 @@ Before submitting, confirm:
 
 ## Source basis
 
-The original standards come from the RL World Finance Expert Onboarding (v6), the RL World Platform Quick Reference and Platform Overview, the Project Omega Guide (V5), the Trainer Review Gate Convergence Report (production data through 23 Sep 2026), the Omega Pod finance and investment tracker and the uploaded RL World task folders. The counterexample and Final Review bars, the tests added to §3, §9 and the pre-flight rows, and the transferred lessons come from the September–October 2026 review sessions recorded in `07_failure_patterns_and_lessons.md`.
+The original standards come from the RL World Finance Expert Onboarding (v6), the RL World Platform Quick Reference and Platform Overview, the Project Omega Guide (V5), the Trainer Review Gate Convergence Report (production data through 23 Sep 2026), the Omega Pod finance and investment tracker and the uploaded RL World task folders. The counterexample and Final Review bars, the tests added to §3, §9 and the pre-flight rows, and the transferred lessons come from the September–October 2026 review sessions recorded in `07_failure_patterns_and_lessons.md`. §8 and the Sample Calibration form follow the RL World Expert Reviewer Onboarding deck "Tips for getting through Sample Calibration"; §9A follows "SOP: External QC (XQC) Workflow for Trainers — RL World" (30 Oct 2026, draft) and the External QC rounds in `10_external_qc.md`; the note recipe and the four situations follow the RL-World Trainer Gate guide "How to Crack the Tool & Cut Your Handle Time".

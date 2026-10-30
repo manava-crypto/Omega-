@@ -1,24 +1,26 @@
 # Project Omega Finance Review Agent
 
-Project Omega finance-review copilot for RL World. It reviews Trainer Review, Model Output Review, Golden Data, Sample Calibration and Final Review task packs, recomputes key figures, checks sources and verifiers, and returns concise, evidence-backed, platform-ready verdicts and fixes.
+Project Omega finance-review copilot for RL World. It reviews Trainer Review, Model Output Review, Golden Data, Sample Calibration, Final Review and External QC work, recomputes key figures, checks sources and verifiers, and returns concise, evidence-backed, platform-ready verdicts and fixes.
 
 ## Overview
 
-The agent supports an expert reviewer across the RL World review lifecycle; it does not replace expert judgment. It treats automated QC and LLM-judge output as claims to audit, not as an answer key. The rulebook was rebuilt from failure patterns mined from review sessions on seventeen task packs; reference 07 records each pattern with the rule and check that prevent it, and reference 09 records how the platform's judge checks and Auto QC actually define and score each question.
+The agent supports an expert reviewer across the RL World review lifecycle; it does not replace expert judgment. It treats automated QC and LLM-judge output as claims to audit, not as an answer key. The rulebook was rebuilt from failure patterns mined from review sessions on seventeen task packs; reference 07 records each pattern with the rule and check that prevent it, reference 09 records how the platform's judge checks and Auto QC actually define and score each question, and reference 10 covers External QC, the stage after Final Review.
 
 ## Review stages
 
 **Trainer Review** runs in dependency order: Task Design → each Source Data file → Prompt → Verifiers → LLM judge checks → Escalations. It covers realism, headroom, solvability, source sufficiency, chronology, cross-file consistency, authority, leakage, prompt clarity, verifier quality, coverage and platform constraints, and raises every finding in one pass.
 
-**Model Output Review** checks every attempt and required deliverable for analytical correctness, instruction following, completeness, fabrication, internal consistency and cross-deliverable coherence, logging each issue against its deliverable, with a severity where the form asks for one.
+**Model Output Review** checks every attempt and required deliverable on the platform's six axes per output file, plus five Additional Feedback fields for cross-file points, logging each issue once with the form's two severities, Critical or Nice to have.
 
 **Golden Data** checks that the expert solution is benchmark quality: calculations recomputed from source, traceability, reasoning, terminology, chronology, totals, rates and consistency across deliverables. Where the golden and a verifier disagree, the agent decides which is wrong before changing either.
 
-**Sample Calibration** grades every attempt against every verifier before reading the judge's verdict, then reconciles, calibrates each verifier, maps coverage and overlap, diagnoses golden defects and hands a summary to Final Review.
+**Sample Calibration** grades every attempt against every verifier before reading the judge's verdict, resolves each disagreement, then answers the platform's five questions per verifier, knowing which answers delete, split, reword or add a verifier at regeneration, and fixes the golden only against a sound verifier.
 
 **Final Review** audits the latest package independently. Prior approvals and "fixed" statuses are claims, re-verified in the current files.
 
-The Model Output Review, Golden Data and Sample Calibration rules are transferred from Trainer Review and Final Review sessions; no complete session of those gates appears in the mined evidence.
+**External QC** follows Final Review and is the last stage before TFRL. The QC team uploads findings; the agent gives each one a true or false positive verdict after a mandatory four-pass review, keeps every fix inside verifier.json (an agreed prompt, source or golden finding rejects the task) and writes the fix request for the QC tracker.
+
+The Golden Data rules are still transferred from other gates; the other stages are backed by review sessions and platform guidance.
 
 ## Core review principles
 
@@ -49,7 +51,8 @@ Omega-/
 │   │   ├── omega-model-output-review.md
 │   │   ├── omega-golden-review.md
 │   │   ├── omega-sample-calibration.md
-│   │   └── omega-final-review.md
+│   │   ├── omega-final-review.md
+│   │   └── omega-external-qc.md
 │   └── skills/
 │       └── project-omega-finance-review -> ../../skills/project-omega-finance-review
 ├── rules/
@@ -63,10 +66,11 @@ Omega-/
             ├── 03_finance_domain_cheat_sheet.md
             ├── 04_completed_task_examples.md
             ├── 05_real_feedback_examples.md
-            ├── 06_output_templates.md               # gate templates A–G
+            ├── 06_output_templates.md               # gate templates A–H
             ├── 07_failure_patterns_and_lessons.md   # probe battery, pre-send checks
             ├── 08_excel_verifier_scoping.md         # workbook scoping, extractor limits
-            └── 09_platform_checks_and_auto_qc.md    # platform check definitions, Auto QC
+            ├── 09_platform_checks_and_auto_qc.md    # platform check definitions, Auto QC
+            └── 10_external_qc.md                    # External QC workflow, true/false positive test
 ```
 
 ## Running the agent in Claude Code
