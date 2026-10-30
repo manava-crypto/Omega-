@@ -4,7 +4,7 @@ Project Omega finance-review copilot for RL World. It reviews Trainer Review, Mo
 
 ## Overview
 
-The agent supports an expert reviewer across the RL World review lifecycle; it does not replace expert judgment. It treats automated QC and LLM-judge output as claims to audit, not as an answer key. The rulebook was rebuilt from failure patterns mined from review sessions on seventeen task packs; reference 07 records each pattern with the rule and check that prevent it, reference 09 records how the platform's judge checks and Auto QC actually define and score each question, and reference 10 covers External QC, the stage after Final Review.
+The agent supports an expert reviewer across the RL World review lifecycle; it does not replace expert judgment. It treats automated QC and LLM-judge output as claims to audit, not as an answer key. The rulebook was rebuilt from failure patterns mined from review sessions on more than thirty task packs; reference 07 records each pattern with the rule and check that prevent it, reference 09 records how the platform's judge checks and Auto QC actually define and score each question, and reference 10 covers External QC, the stage after Final Review.
 
 ## Review stages
 

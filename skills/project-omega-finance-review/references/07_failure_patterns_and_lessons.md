@@ -1,6 +1,6 @@
 # Failure Patterns and Lessons
 
-Read before every verdict. Each pattern is a failure from reviews of seventeen task packs, with its rule, a self-check and one line of evidence. The evidence is Trainer Review, five Final Reviews and the Auto QC reworks on both, so lessons for Model Output Review, Golden Data and Sample Calibration are transferred. Logs and ledgers are working notes, never output. Where a pattern and the pasted Description of a platform check disagree, the Description governs that check (09).
+Read before every verdict. Each pattern is a failure from reviews of more than thirty task packs, with its rule, a self-check and one line of evidence. The evidence covers Trainer Review, Final Review, External QC, Model Output Review, one Sample Calibration and the Auto QC reworks; only the Golden Data lessons are transferred. Logs and ledgers are working notes, never output. Where a pattern and the pasted Description of a platform check disagree, the Description governs that check (09).
 
 ## Task key
 
@@ -251,12 +251,12 @@ Read before every verdict. Each pattern is a failure from reviews of seventeen t
 ### F44. Structure changed to hit a set size
 - Rule: set size never justifies a merge, drop, split, relabel or reversed verdict; when QC says a remedy cannot be applied, change the remedy and keep the verdict.
 - Check: every structural request cites atomicity, redundancy or obligation ownership.
-- Evidence: CLO's rework called a composite atomic and rejected sound verifiers to free slots; CRW's conditional drop orphaned the control gaps; ACL's merges made to shrink the set failed atomicity.
+- Evidence: CLO's rework called a composite atomic and rejected sound verifiers to restructure the set; CRW's conditional drop orphaned the control gaps; ACL's merges made for structure's sake failed atomicity.
 
 ### F45. Agreeing with every External QC finding by default
 - Rule: test each finding's own complaint and its own example of a correct answer; agree only when that complaint holds in the current verifier file and needs a change.
 - Check: the lead names the closest call, and every Agree survived the Pass 2 attack in reference 10.
-- Evidence: the user asked "you sure you agree with all findings?" in six sessions; LHF finding 4 (the prompt asks how sensitive the answer "is to unresolved terms"), three MKT market findings and three KRD findings were then reversed to Disagree.
+- Evidence: the user asked "you sure you agree with all findings?" after every External QC round in the sessions (eleven); LHF finding 4 (the prompt asks how sensitive the answer "is to unresolved terms"), three MKT market findings and three KRD findings were then reversed to Disagree.
 
 ### F46. External QC fixes routed outside verifier.json
 - Rule: at External QC only verifier.json changes; take a sound verifier-only cure when one exists, and say in the first sentence when an agreed finding rejects the task.
@@ -271,7 +271,7 @@ Read before every verdict. Each pattern is a failure from reviews of seventeen t
 ### F48. Unasked requirements approved at Final Review
 - Rule: a PASS condition the prompt never asks for, or one accepted reading where the prompt and sources allow another, fails a correct answer and meets Final bar (b).
 - Check: every literal figure, label, closed list and placement in a criterion traces to a prompt clause.
-- Evidence: External QC solver runs failed correct answers on LHF's "$6,640,000", RAQ's "405.96255m", COV's closed owner list with no Treasurer in the packet, TRS's reopened reconciliation and KRD's 529.5992 EBITDA reading; each had been approved or made optional at Final Review.
+- Evidence: External QC reviews (solver runs or file reads) failed correct answers on LHF's "$6,640,000", RAQ's "405.96255m", COV's closed owner list with no Treasurer in the packet (a file-read finding), TRS's reopened reconciliation and KRD's 529.5992 EBITDA reading; each had been approved or made optional at Final Review.
 
 ### F49. Golden graded on its arithmetic, not its words
 - Rule: grade the golden literally against every FAIL clause, labels and ordering included, and test each pass case against the governing standard.
@@ -296,12 +296,12 @@ Read before every verdict. Each pattern is a failure from reviews of seventeen t
 ### F53. Button and words disagree
 - Rule: clean means APPROVE, AGREE with a PASS or DISAGREE with a FAIL; broken means REJECT, AGREE with a FAIL or DISAGREE with a PASS; read each note against its button before sending.
 - Check: no approve-side note carries defect words, no reject-side note says clean or unchanged.
-- Evidence: the trainer-gate guide names this the cause of most re-dos; CUS's "This verifier fails a correct response… PASS test is unchanged" failed decision/note coherence twice.
+- Evidence: the trainer-gate guide names this the cause of most re-dos; CUS's "This verifier fails a correct response… PASS test is unchanged" failed decision/note coherence as a polarity inversion, after a first failure for a bundled note.
 
 ### F54. A figure called wrong against the wrong column
 - Rule: before flagging a number, confirm which column, list and population the checker means (median or top-decile, one list or another).
 - Check: each "wrong figure" claim names the column and population it was compared with.
-- Evidence: the trainer-gate guide's third leak; LQP's "you have failed 29 verifiers" held for 12 on recheck.
+- Evidence: the trainer-gate guide's third leak; PBM's judge counted 6,134 blotter events against 6,128 because it took the last row number, header and footer included.
 
 ### F55. A Source Data Disagree that denies the judge's offender
 - Rule: name every offender the judge cited, then argue scope or evidence; never claim the judge named nothing or that a named item is not a defect.
@@ -317,6 +317,16 @@ Read before every verdict. Each pattern is a failure from reviews of seventeen t
 - Rule: fix one shared policy (bands, caps, anchors) before parallel drafting and reconcile centrally; re-check every relayed header and figure.
 - Check: one value per shared parameter across all drafts.
 - Evidence: OPR's three drafting agents set the term cap at 5.37, 5.4 and 5.25 years; NLR's subagent wrote "finding 3" for the screen's "finding 1".
+
+### F58. Rejecting more than owns the problem
+- Rule: find the one file or item that owns the defect and reject only that; preventive edits are Approve plus an Optional line, never a REJECT.
+- Check: every REJECT names the realistic mis-grade it prevents.
+- Evidence: the trainer-gate guide's fifth leak; LQP's "you have failed 29 verifiers, are yo usure…?" held for 12, the other 17 being preventive edits.
+
+### F59. Reworks trusted without a spot-check
+- Rule: after any rework, re-check the things that depend on what changed (totals that must still add, planted traps that must survive, neighbouring criteria that cite the same figure).
+- Check: each changed item has a dependency list that was re-read.
+- Evidence: the trainer-gate guide's seventh leak; F32 and F34 record the same failure at Source Data.
 
 ## Reviewer habits
 
@@ -358,7 +368,7 @@ LHF round one rejected Task Design against verifier scope, Source Documents over
 
 Overall REJECT, because one verifier rejection ends the task: workbook_performance_fee_mechanics, workbook_ltd_giveback_rollforward and memo_giveback_conclusion. Every submission so far concluded a $0 give-back, so the two cap REJECTs rest on a branch no submission has taken; they stand.
 
-The full answer is in `04_completed_task_examples.md`. One caution: V14 and V35 were approved without quoting a prompt basis although both supplied outputs failed V14; under F01 an approval like that now needs the prompt or anomaly-plan quote that makes the item a reasonable reading.
+The full answer is in `04_completed_task_examples.md`. Two cautions. V14 and V35 were approved without quoting a prompt basis although both supplied outputs failed V14; under F01 an approval like that now needs the prompt or anomaly-plan quote that makes the item a reasonable reading. And External QC later showed correct solver runs failing LHF criteria approved here as "strict but defensible" placement and literal-figure readings ("$6,640,000", "total GP fee"): a PASS condition the prompt never asks for meets (b) and is not an optional placement reading (F48).
 
 ## Pre-send checklist
 
@@ -382,5 +392,5 @@ The full answer is in `04_completed_task_examples.md`. One caution: V14 and V35 
 18. Right column: every "wrong figure" claim names the column, list and population it was compared with (F54).
 19. One place, every place: when you change your mind on an item, search its name and fix every place it appears before sending.
 20. Rule check: no fix breaks a stated platform rule or the verifier.json schema; if it would, change the fix, never the verdict.
-21. External QC: one entry per card with its exact screen header; the fix request covers only agreed verifier findings; no Final Review field verdicts or Overall line (reference 10).
+21. External QC: one entry per card with its exact screen header; the fix request covers only agreed verifier findings plus one sentence on missing earlier fixes; no Final Review field verdicts or Overall line (reference 10).
 22. Model Output Review: severity is Critical or Nice to have, and each entry's wording matches its label (F52).
