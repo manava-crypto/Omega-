@@ -20,7 +20,7 @@ The agent supports an expert reviewer across the RL World review lifecycle; it d
 
 **External QC** follows Final Review and is the last stage before TFRL. The QC team uploads findings; the agent gives each one a true or false positive verdict after a mandatory four-pass review, keeps every fix inside verifier.json (an agreed prompt, source or golden finding rejects the task) and writes the fix request for the QC tracker.
 
-The Golden Data rules are still transferred from other gates; the other stages are backed by review sessions and platform guidance.
+Every stage is now backed by review sessions and platform guidance; the Golden Data rules draw on the golden steps that followed two Model Output Reviews.
 
 ## Core review principles
 

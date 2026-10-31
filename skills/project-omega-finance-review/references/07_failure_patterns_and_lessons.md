@@ -1,6 +1,6 @@
 # Failure Patterns and Lessons
 
-Read before every verdict. Each pattern is a failure from reviews of more than thirty task packs, with its rule, a self-check and one line of evidence. The evidence covers Trainer Review, Final Review, External QC, Model Output Review, one Sample Calibration and the Auto QC reworks; only the Golden Data lessons are transferred. Logs and ledgers are working notes, never output. Where a pattern and the pasted Description of a platform check disagree, the Description governs that check (09).
+Read before every verdict. Each pattern is a failure from reviews of more than thirty task packs, with its rule, a self-check and one line of evidence. The evidence covers Trainer Review, Final Review, External QC, Model Output Review, one Sample Calibration and the Auto QC reworks; the Golden Data lessons come from the golden steps after Model Output Review (HWI, BKS) plus transfers from other gates. Logs and ledgers are working notes, never output. Where a pattern and the pasted Description of a platform check disagree, the Description governs that check (09).
 
 ## Task key
 
@@ -327,6 +327,21 @@ Read before every verdict. Each pattern is a failure from reviews of more than t
 - Rule: after any rework, re-check the things that depend on what changed (totals that must still add, planted traps that must survive, neighbouring criteria that cite the same figure).
 - Check: each changed item has a dependency list that was re-read.
 - Evidence: the trainer-gate guide's seventh leak; F32 and F34 record the same failure at Source Data.
+
+### F60. Golden-step leftovers and reintroduced errors
+- Rule: after every reported fix, search every text surface (memo body, tables, headers, footers, workbook text, comments, notes) for the old figure, and never let an added sensitivity or check reintroduce a figure the MOR flagged.
+- Check: a grep for each old figure returns nothing outside clearly labelled history.
+- Evidence: HWI's corporate-cost fix left "$2.13", "$19.75" and "+5.04" stale on other sheets; BKS's added sensitivities brought back 48,350,086.83 and 72,525,130.24.
+
+### F61. Golden-step lists written once for both files, or unlabelled
+- Rule: Additional Issues go one list per golden file, each change once under the file it was made in, one or two sentences each, labelled Critical or Nice to have from the start.
+- Check: every entry names its file, locator, old and new figure, and a severity that matches its wording.
+- Evidence: BKS's combined list drew "seperately for each golden"; both users had to ask "are they critical or nice to have?".
+
+### F62. Pre-loaded text pasted back as received
+- Rule: repair what the platform broke in pre-loaded items (swallowed asterisks, curly quotes, stale cross-references, duplicate items), and reconcile severity labels with what the platform saved before the golden step.
+- Check: every formula in a confirmation is valid as written; no item appears twice.
+- Evidence: HWI's "=Valuation!B9Valuation!B10" and its duplicated Read_Me row 19; BKS's "=IF(‘C Change Log’!K7=””,””,…)".
 
 ## Reviewer habits
 

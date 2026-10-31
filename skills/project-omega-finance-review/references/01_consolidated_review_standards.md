@@ -106,7 +106,9 @@ On the platform form the first six axes are per output file and coherence sits i
 - The workbook contains auditable assumptions, checks and source traceability, with no hidden hard-coded answers where formulas are expected.
 - Cross-deliverable figures, labels, recommendations, uncertainties and action timing agree.
 
-Transferred lessons: APPROVE when the golden passes every verifier and its material figures recompute from source. Recompute key chains from the sources, not from golden cells. Where the golden and a verifier disagree, decide which is wrong first; a golden that passes a verifier you reject means the flaw is in grading other submissions, not in the golden.
+- At the golden step after Model Output Review: every pre-loaded MOR issue is fixed in the base model's files, conflicts between MOR fixes are settled before the build, the workbook is recalculated with every control at zero, no stale figure survives on any text surface, and each Additional Issue is listed once under its file with a Critical or Nice to have label.
+
+APPROVE when the golden passes every verifier and its material figures recompute from source. Recompute key chains from the sources, not from golden cells. Where the golden and a verifier disagree, decide which is wrong first; a golden that passes a verifier you reject means the flaw is in grading other submissions, not in the golden.
 
 ## 8. Sample Calibration standard
 
