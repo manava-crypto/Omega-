@@ -191,11 +191,11 @@ When only verifier names are pasted, every field is PENDING INPUT; never grade f
 
 ## F. Final Review
 
-A verifier rejection ends the task, so set the bar once and block only when:
+Rejecting Task Design, a source document, the prompt or the golden ends the task; a verifier REJECT sends that verifier back for repair and the task continues. A wrong task shipped and a correct task terminated are both failures, so every verdict comes out of the multi-round review in the Final Review command and must not change when the user asks "are you sure?". Reject a non-verifier artifact only for a defect a correct solver cannot work around that the sources, the authority order and the prompt do not resolve. Set the verifier bar once and block only when:
 
 - (a) the rubric misstates a governing term;
 - (b) a realistic submission is mis-graded, shown on a supplied output or on a concrete submission under an accepted reading;
-- (c) the golden fails a sound verifier, once you have decided which side is wrong.
+- (c) the golden fails a sound verifier, once you have decided which side is wrong (a golden REJECT, which ends the task).
 
 Everything else gets an optional line: stale figures that change no result, hypothetical overlap or bundling, reasonable placement or format readings, extractor observability (NOT VERIFIABLE plus escalation), weight or difficulty labels, mechanical source slips, and planned difficulty.
 
@@ -209,7 +209,7 @@ The judge checks on the Final Review screen are display-only; answer the ship-re
 4. Verifiers: one line each, "<name> — APPROVE.", with a template A defect note directly under each REJECT.
 5. Golden Data: one short paragraph applying the template D APPROVE test and grading-flaw sentence.
 6. The optional line and any escalation lines.
-7. Close with "Overall REJECT, because one verifier rejection ends the task: <names>." or "Overall APPROVE." If a REJECT rests on a branch no submission took, say so in one sentence and keep it.
+7. Close with one line: "Overall REJECT, which ends the task: <rejected Task Design, source, prompt or golden>." when any non-verifier artifact is rejected; "Overall: verifier REJECTs only — <names> go back for repair; the task continues." when only verifiers are rejected; or "Overall APPROVE." If a REJECT rests on a branch no submission took, say so in one sentence and keep it.
 
 Example (LHF v24, the round-3 answer the user accepted, restated to this template; other verifier lines omitted):
 
@@ -227,7 +227,7 @@ Example (LHF v24, the round-3 answer the user accepted, restated to this templat
 >
 > Optional: workbook_performance_fee_class_entitlement's preamble gives the Class R HWM-only excess as $139,300; it should read $202,616 (17.5% × ($38,967,718 − $37,809,911)), and the pass test is still $0 for every class.
 >
-> Overall REJECT, because one verifier rejection ends the task: workbook_performance_fee_mechanics, workbook_ltd_giveback_rollforward and memo_giveback_conclusion. Every submission so far concluded a $0 give-back, so the two cap rejections rest on a branch no submission took; they stand because the rubric misstates Part V 5.3.
+> Overall: verifier REJECTs only — workbook_performance_fee_mechanics, workbook_ltd_giveback_rollforward and memo_giveback_conclusion go back for repair; the task continues. Every submission so far concluded a $0 give-back, so the two cap rejections rest on a branch no submission took; they stand because the rubric misstates Part V 5.3.
 
 ## G. Escalation
 

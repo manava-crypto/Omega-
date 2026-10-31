@@ -125,11 +125,11 @@ Decide which checks to mark with the probe battery (§1); template E in 06 holds
 
 Use the latest files as the source of truth; old versions matter only as remediation history. Scrutinize every prior failed check and re-verify every claimed fix in the current files, then put each finding through the bar below. A fix that holds in substance but carries a stale figure is non-blocking.
 
-A remaining material issue in any artifact is terminal for the current package, and a single verifier rejection ends the task, so "material" here means the bar. Set it once, before grading, and block only when:
+Rejecting Task Design, a source document, the prompt or the golden ends the task; a verifier REJECT sends that verifier back for repair and the task continues. Both errors are costly, a wrong task shipped or a correct task terminated, so every verdict must be right the first time; run the multi-round review in the Final Review command. A non-verifier artifact is rejected only for a defect a correct solver cannot work around that the sources, the authority order and the prompt do not resolve. Set the verifier bar once, before grading, and block only when:
 
 - (a) the rubric misstates a governing term, which encodes a wrong rule in grading even if no submission has hit it yet;
 - (b) a realistic submission is mis-graded, shown on a supplied output or on a concrete submission under an accepted reading;
-- (c) the golden fails a sound verifier, once you have decided which side is wrong.
+- (c) the golden fails a sound verifier, once you have decided which side is wrong; this is a golden REJECT and ends the task, so it needs the golden recomputed from source and the verifier shown sound.
 
 Do not reject for cosmetic or pipeline-only issues that do not impair correctness, usability, fairness or gradeability. Everything outside the bar gets an optional line: stale figures that change no result, hypothetical overlap or bundling, reasonable placement or format readings, extractor observability (NOT VERIFIABLE plus escalation), weight or difficulty labels, mechanical source slips, and planned difficulty. Overlap blocks only when a supplied or concretely constructed submission loses two verifiers for one defect. A placement or format reading is optional only when the prompt supports it: a PASS condition the prompt never asks for (a literal figure, label, closed list or fixed placement) or a single accepted reading where the prompt and sources allow another fails a correct answer and meets (b), as External QC reviews (solver runs or file reads) showed for several such Final Review approvals. Grade the golden literally against every FAIL clause and test each pass case against the governing standard. Approval sends the task to External QC, where only verifier.json can change, so approve only a final task.
 
@@ -140,7 +140,7 @@ Judge in this order:
 3. Each verifier, against the bar.
 4. Golden, by §7.
 
-Give one short paragraph each for Task Design, Source Documents and Golden, then one line per verifier in screen order, notes under REJECTs only. Close with "Overall REJECT, because one verifier rejection ends the task: <names>." or "Overall APPROVE." If a REJECT rests on a branch no submission took, say so and keep it. Template F is in 06; the worked case is in 07.
+Give one short paragraph each for Task Design, Source Documents and Golden, then one line per verifier in screen order, notes under REJECTs only. Close with one line: "Overall REJECT, which ends the task: <rejected Task Design, source, prompt or golden>." when any non-verifier artifact is rejected; "Overall: verifier REJECTs only — <names> go back for repair; the task continues." when only verifiers are rejected; or "Overall APPROVE." If a REJECT rests on a branch no submission took, say so and keep it. Template F is in 06; the worked case is in 07.
 
 ## 9A. External QC standard
 

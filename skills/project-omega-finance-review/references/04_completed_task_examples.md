@@ -88,7 +88,7 @@ Checks to imitate:
 
 **What was asked.** The package had two deliverables, output/2025_fee_close_model.xlsx and output/controller_fee_conclusion_memo.docx. The platform asks for Approve/Reject on Task Design, Source Documents, each LLM verifier and Golden Data, under the header "Confirm each verifier is ship-ready; a rejection ends the task." The user: "Run Final Review on the latest package. Verify the prior fixes yourself and give me the exact Approve/Reject answers I should enter on the platform for each - Task Design, Source Documents, verifiers, and Golden Data."
 
-**The bar.** A verifier rejection ends the task, so block only when the rubric misstates a governing term, a realistic submission is mis-graded (shown on a supplied output or a concrete submission under an accepted reading), or the golden fails a sound verifier once you have decided which side is wrong. Stale figures that change no result, hypothetical overlap or bundling, reasonable placement or format readings, weight or difficulty labels, mechanical source slips and planned difficulty get optional lines; extractor observability gets NOT VERIFIABLE and an escalation.
+**The bar.** (As then understood: a verifier rejection ends the task. The user has since confirmed that only a Task Design, source, prompt or golden rejection ends the task and a verifier REJECT goes back for repair.) The bar was to block only when the rubric misstates a governing term, a realistic submission is mis-graded (shown on a supplied output or a concrete submission under an accepted reading), or the golden fails a sound verifier once you have decided which side is wrong. Stale figures that change no result, hypothetical overlap or bundling, reasonable placement or format readings, weight or difficulty labels, mechanical source slips and planned difficulty get optional lines; extractor observability gets NOT VERIFIABLE and an escalation.
 
 **Round-by-round correction.**
 
@@ -115,7 +115,7 @@ memo_giveback_conclusion — REJECT. The criterion accepts "the 35% after-tax ca
 
 Optional: workbook_performance_fee_class_entitlement's preamble gives the Class R HWM-only excess as $139,300; it is $202,616 (17.5% × ($38,967,718 − $37,809,911)), and the pass test is still $0 for every class.
 
-Overall REJECT, because one verifier rejection ends the task: workbook_performance_fee_mechanics, workbook_ltd_giveback_rollforward and memo_giveback_conclusion. Every submission so far concluded a $0 give-back, so the two cap REJECTs rest on a branch no submission has taken; they stand.
+Overall: verifier REJECTs only — workbook_performance_fee_mechanics, workbook_ltd_giveback_rollforward and memo_giveback_conclusion go back for repair; the task continues. Every submission so far concluded a $0 give-back, so the two cap REJECTs rest on a branch no submission has taken; they stand.
 
 Lesson: set the bar and the terminal consequence before grading and quote both in every brief; judge Task Design before and apart from the verifiers; when challenged, re-test each item against the same bar instead of reversing wholesale, and state what evidence changed.
 

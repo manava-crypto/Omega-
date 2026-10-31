@@ -50,7 +50,7 @@ Rules that decide the close calls:
 
 ## 4. Multi-pass review (mandatory)
 
-Run every pass on every finding. Keep the working notes in the scratchpad; only the result is output.
+Run every pass on every finding. The `/omega-external-qc` command runs these passes as a multi-agent workflow (`.claude/workflows/omega-external-qc.js`): two independent verdict sets, an attack on each side of every card and a judge, repeated until no verdict moves, then set consistency and an "are you sure?" challenge before anything is written. The verdicts handed to the user are final; the user should never need to ask twice. Keep the working notes in the scratchpad; only the result is output.
 
 - **Pass 0, identity and diff.** Match the screen: task ID, the version in the task link, the attached verifier file, the card count. Diff the verifier file against the FRG-approved version and any earlier corrected file. Report agreed edits that did not land and changes nobody requested (whole-workbook judges, a duplicated judge model, a garbled "PASS only if " prefix, a changed judge panel), and escalate missing agreed edits to the pod lead.
 - **Pass 1, independent verdict.** For each card, read the criterion verbatim in the current file, the prompt clauses it rests on, the sources and the golden. Recompute every figure QC cites. Grade the finding's example answer against the criterion text yourself. Record the verdict and the deciding evidence.

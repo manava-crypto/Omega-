@@ -35,7 +35,7 @@ The Golden Data rules are still transferred from other gates; the other stages a
 
 ## Output standard and the Final Review bar
 
-Answers are paste-ready and inline: an optional lead of one paragraph, two at most, then one entry per platform field in screen order, headed by the on-screen name and verdict word, with fixed platform lists such as one line per verifier allowed. An APPROVE or clean AGREE takes one sentence; a defect entry takes one paragraph, two at most, giving evidence with a quoted locator, the counterexample, then "Fix:" with the exact change, and uses bullets only when a fix has three or more separate edits. At Final Review a verifier rejection ends the task, so the agent blocks only when a rubric misstates a governing term, a realistic submission is mis-graded (shown on a supplied output or on a concrete submission under an accepted reading), or the golden fails a sound verifier; everything else gets an optional line.
+Answers are paste-ready and inline: an optional lead of one paragraph, two at most, then one entry per platform field in screen order, headed by the on-screen name and verdict word, with fixed platform lists such as one line per verifier allowed. An APPROVE or clean AGREE takes one sentence; a defect entry takes one paragraph, two at most, giving evidence with a quoted locator, the counterexample, then "Fix:" with the exact change, and uses bullets only when a fix has three or more separate edits. At Final Review, rejecting Task Design, a source, the prompt or the golden ends the task, while a verifier REJECT sends the verifier back for repair; the agent rejects a verifier only when its rubric misstates a governing term or a realistic submission is mis-graded, rejects the golden only when it truly fails a sound verifier, and gives everything else an optional line. Final Review and External QC run as multi-agent orchestrations with repeated rounds of checks, so the answers handed over are final.
 
 ## Repository structure
 
@@ -46,6 +46,9 @@ Omega-/
 ├── .claude/
 │   ├── agents/
 │   │   └── project-omega-finance-review.md
+│   ├── workflows/             # multi-round orchestrations for Final Review and External QC
+│   │   ├── omega-final-review.js
+│   │   └── omega-external-qc.js
 │   ├── commands/              # one slash command per gate
 │   │   ├── omega-trainer-review.md
 │   │   ├── omega-model-output-review.md
@@ -77,7 +80,7 @@ Omega-/
 
 The copilot is packaged as a Claude Code subagent, and opening this repository in Claude Code is enough to pick it up. `CLAUDE.md` routes any gate request to the agent even when no slash command is used, so "run trainer review on this pack" works as well as `/omega-trainer-review ./task-pack`.
 
-Each command takes a path to the task pack; `/omega-trainer-review` and `/omega-model-output-review` also run without one, inventorying the files attached or last referenced and confirming the pack first.
+`/omega-final-review` and `/omega-external-qc` launch the multi-agent workflows in `.claude/workflows/` (independent reviews, adversarial adjudication rounds until no verdict moves, and an "are you sure?" challenge), so they take longer and use more agents than the other commands; if the Workflow tool is unavailable, the command runs the same rounds with subagents. Each command takes a path to the task pack; `/omega-trainer-review` and `/omega-model-output-review` also run without one, inventorying the files attached or last referenced and confirming the pack first.
 
 The agent deliberately has no web access: review is closed-book against the supplied evidence, and gaps are never filled from outside knowledge. Given only a platform link, it asks for the review-artifacts zip and the judge text pasted verbatim. It handles xlsx, csv, pdf, docx, pptx, md and json, opening workbooks for both formulas and cached values, and keeps scripts and extracts in the scratchpad; review output is never written into the repository.
 

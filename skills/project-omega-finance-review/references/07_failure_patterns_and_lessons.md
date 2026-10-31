@@ -134,9 +134,9 @@ Read before every verdict. Each pattern is a failure from reviews of more than t
 - Evidence: HAL's HIL-AR-2026Q2, dated after the window end, flipped the governing reserve.
 
 ### F21. Briefs and relays
-- Rule: briefs quote the bar, terminal consequence, counterexample rule, Fix: and C1–C8; re-verify each REJECT driver; relay one-to-one without stripping fixes.
+- Rule: briefs quote the bar, which rejections end the task, counterexample rule, Fix: and C1–C8; re-verify each REJECT driver; relay one-to-one without stripping fixes.
 - Check: relayed entries equal the form's fields.
-- Evidence: LHF briefs omitted the terminal consequence, and 14 REJECTs came back.
+- Evidence: LHF briefs omitted the stakes of a rejection, and 14 REJECTs came back.
 
 ### F22. Verdicts without evidence, wrong pack
 - Rule: match the upload to the screen first; mark PENDING INPUT per question, naming the file, with no provisional leaning; quote a truncated paste, mark it NOT VERIFIABLE and ask for a re-paste.
@@ -362,11 +362,11 @@ Trainer overrides do not carry across versions: when a check re-fails content an
 
 ## Final Review bar and the LHF case
 
-A verifier rejection ends the task, so block only when (a) the rubric misstates a governing term; (b) a realistic submission is mis-graded, shown on a supplied output or on a concrete submission under an accepted reading; or (c) the golden fails a sound verifier, once you have decided which side is wrong. Everything else gets an optional line: stale figures that change no result, hypothetical overlap or bundling, reasonable placement or format readings, extractor observability (NOT VERIFIABLE plus escalation), weight or difficulty labels, mechanical source slips, and planned difficulty.
+Rejecting Task Design, a source, the prompt or the golden ends the task; a verifier REJECT sends that verifier back for repair. Block a verifier only when (a) the rubric misstates a governing term; (b) a realistic submission is mis-graded, shown on a supplied output or on a concrete submission under an accepted reading; or (c) the golden fails a sound verifier, once you have decided which side is wrong. Everything else gets an optional line: stale figures that change no result, hypothetical overlap or bundling, reasonable placement or format readings, extractor observability (NOT VERIFIABLE plus escalation), weight or difficulty labels, mechanical source slips, and planned difficulty.
 
 LHF round one rejected Task Design against verifier scope, Source Documents over conditions their own notes explain, and 14 verifiers. Against the bar both layers went to APPROVE and 11 REJECTs fell: wrong anchors that changed no result (V15, V16, V18, V24), hypothetical overlap or edge cases (V3, V36), a workbook-wide check that `08_excel_verifier_scoping.md` allows (V21), and reasonable readings of the prompt (V14, V33, V35, V38). Three stood: a double penalty shown on a supplied output (workbook_performance_fee_mechanics), and a 35% cap missing Part V 5.3's documented-taxes condition (workbook_ltd_giveback_rollforward, memo_giveback_conclusion). The golden passed all three, so the flaws lie in grading other submissions. The closing line, as the bar requires it:
 
-Overall REJECT, because one verifier rejection ends the task: workbook_performance_fee_mechanics, workbook_ltd_giveback_rollforward and memo_giveback_conclusion. Every submission so far concluded a $0 give-back, so the two cap REJECTs rest on a branch no submission has taken; they stand.
+Overall: verifier REJECTs only — workbook_performance_fee_mechanics, workbook_ltd_giveback_rollforward and memo_giveback_conclusion go back for repair; the task continues. Every submission so far concluded a $0 give-back, so the two cap REJECTs rest on a branch no submission has taken; they stand.
 
 The full answer is in `04_completed_task_examples.md`. Two cautions. V14 and V35 were approved without quoting a prompt basis although both supplied outputs failed V14; under F01 an approval like that now needs the prompt or anomaly-plan quote that makes the item a reasonable reading. And External QC later showed correct solver runs failing LHF criteria approved here as "strict but defensible" placement and literal-figure readings ("$6,640,000", "total GP fee"): a PASS condition the prompt never asks for meets (b) and is not an optional placement reading (F48).
 
