@@ -4,7 +4,7 @@ Notes in the exact form you return. Part A rewrites peer-review notes from the O
 
 ## The form
 
-Head each entry with the on-screen name and verdict word. Every defect note (REJECT, DISAGREE, or AGREE with a FAIL) stands alone and ends with "Fix:" naming the artifact or verifier ID, a quoted locator and the exact change (what to delete, the replacement, which conflicting version to keep). Defect entry: one paragraph, two at most, about 120 words, ordered evidence with locator → counterexample → Fix:. Bullets only for three or more separate edits.
+Head each entry with the on-screen name and verdict word. Every defect note (REJECT, AGREE with a FAIL, or DISAGREE with a PASS) stands alone and ends with "Fix:" naming the artifact or verifier ID, a quoted locator and the exact change (what to delete, the replacement, which conflicting version to keep). Defect entry: one paragraph, two at most, about 120 words, ordered evidence with locator → counterexample → Fix:. Bullets only for three or more separate edits.
 
 Beyond the form, the accepted notes share four habits: they prove the defect with a calculation, a quoted governing clause, a cross-file comparison or a platform rule; they state the consequence as one concrete mis-grade, without exaggeration; they repair narrowly and leave sound parts as drafted; and they route the defect to the layer where it originates (source, prompt, golden, verifier or pipeline).
 

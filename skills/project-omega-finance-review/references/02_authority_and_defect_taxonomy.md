@@ -58,6 +58,8 @@ The authoritative source depends on the fact being tested, not on a blanket rank
 | V-08 | Verifier | Truncation policy error | Rubric fails solely on extraction/token truncation. | Judge feedback / verifier | Reject remediation |
 | PL-01 | Pipeline | Tool/QC limitation | Issue comes from conversion, extraction, stale cached view, or impossible QC requirement. | Escalation | Not task defect |
 
+The severities in this table are the reviewer's own scale for Trainer Review and Final Review notes. Where a platform form asks for severity (Model Output Review and the golden step), use only its two values: MO-01, MO-02 and MO-05 defects are Critical, and Nice to have applies only when every displayed figure is correct and nothing required is missing (06 template C).
+
 ### Verifier codes from review evidence
 
 The owner is the verifier concerned; severity follows the action.

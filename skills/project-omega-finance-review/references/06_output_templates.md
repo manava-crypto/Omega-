@@ -1,6 +1,6 @@
 # Output Templates
 
-Paste-ready forms for every Project Omega gate. Fill the gate's template for every field the pasted form shows, from the files in hand, and return it inline in the chat: never a generic review essay, a file card, or review output written into the repository. Template A governs every note at every gate, B to F are the gates, and G is the escalation line. The Model Output Review, Golden Data and Sample Calibration forms carry lessons transferred from other gates, because no completed review of those gates is in the evidence.
+Paste-ready forms for every Project Omega gate. Fill the gate's template for every field the pasted form shows, from the files in hand, and return it inline in the chat: never a generic review essay, a file card, or review output written into the repository. Template A governs every note at every gate, B to F and H are the gates (H is External QC, the stage after Final Review), and G is the escalation line. The Model Output Review, golden-step and Sample Calibration forms follow the platform screens seen in late October 2026.
 
 ## Reply shape
 
@@ -21,11 +21,22 @@ Before sending: entries equal the form's fields, every FAIL and every AGREE that
 
 ## A. Notes (every gate)
 
+### The four situations
+
+Every item is one of four. Decide by where your answer lands, not by which button you press: a final answer of FAIL needs proof and a fix; a final answer of PASS needs proof only. Make the button match the words, because a note that calls the file clean under a Reject (or broken under an Approve) is thrown back.
+
+- AGREE with a PASS (it is fine, the checker is right): one line of evidence.
+- DISAGREE with a FAIL (it is fine, the checker is wrong): the reason the checker's concern does not hold, the proof that clears it (file, sheet or cell, quote or figure), naming any offender the checker cited, and "No change required to this file for this check." No other Fix.
+- AGREE with a FAIL (it is broken, the checker is right): the reason, the proof, the Fix.
+- DISAGREE with a PASS (it is broken, the checker missed it): the defect the checker missed, the proof, the Fix.
+
+Write every note Answer → Proof → Fix, and end with a decision and a location: never a question and never a blank "Fix:".
+
 ### Entry forms
 
 APPROVE, or AGREE with a PASS where you found no defect: one sentence, ≤30 words, giving the evidence that settles it.
 
-Defect entry (REJECT, DISAGREE, or AGREE with a FAIL): one paragraph, two at most, about 120 words, in this order:
+Defect entry (REJECT, AGREE with a FAIL, or DISAGREE with a PASS; at External QC an Agree uses template H instead): one paragraph, two at most, about 120 words, in this order:
 
 - location and evidence: quoted text, sheet and cell, slide or figure;
 - implication; for a verifier, the counterexample "A submission that … would FAIL/PASS because …";
@@ -104,28 +115,46 @@ Judge check, finding taken and remedy rejected (REI; adopted at v6):
 
 > Verifier rubrics resist keyword-only hacking — AGREE. paper_references_workbook_calculations passes a one-sentence paper that only names the tabs. TAKE the finding; REJECT the remedy of importing the deck's USD 840–1,070m band, which would give that value a second owner. Fix: in paper_references_workbook_calculations, PASS only if the paper ties at least two workbook references to specific conclusions the paper itself states; add to FAIL "or if the workbook references are free-standing pointers not attached to any conclusion the paper draws". Do not import the deck's USD 840–1,070m band.
 
-## C. Model Output Review (lessons transferred)
+## C. Model Output Review
 
-Per attempt, in screen order:
+The screens typically run per model and per file: with two models and two output files, 1/6 is Model 1's memo, 2/6 Model 1's workbook, 3/6 Model 1's Additional Feedback, and 4/6 to 6/6 repeat for Model 2. Never assume which screen is which; ask for any screen not pasted, and never derive the task ID from an upload's file name.
 
-1. Attempt summary, one paragraph: the approach, the decision or conclusion, the strongest aspect and the most material defect.
-2. Per deliverable, named by its file path, one entry per axis: instruction-following, correctness, completeness, format and deliverable compliance, hallucination and fabrication, data integrity. A clean axis reads "<axis> — No issues." Each issue is its own numbered entry, with severity where the form asks (Critical, Major, Minor, Cosmetic), location, evidence, implication and a Fix: giving the exact correction, closing with the other artifacts the same error reaches. Keep analytical root causes apart from presentation.
-3. Cross-file coherence: one entry per disagreement among workbook, memo, deck and reasoning, naming the authoritative value and every place it must be corrected.
-4. Overall assessment, one paragraph: did the attempt answer the ask, are its conclusions sound, do its outputs cohere as one solution.
+1. Per output file ("List issues per axis for this output file"), one entry per axis in screen order: Instruction-following, Correctness, Completeness, Deliverable / formatting compliance, Hallucination / fabrication, Data integrity. A clean axis reads "<axis> — No issues." plus one reason and no severity. Each issue is its own entry: severity, location, evidence and the exact correction.
+2. Additional Feedback, five fields: Approach & direction, Task understanding & scope, Reasoning & assumptions, Cross-file data consistency, Coherence & integration. "Issues with a single file belong in that file's feedback"; cross-file disagreements go here, naming the authoritative value and every place it must change.
+3. Record each defect once, in one field, and keep every "No issues" line consistent with the other entries.
 
-Issue numbers carry forward into the golden fix log. A model failing a verifier is evidence about the model unless the requirement is not a reasonable reading of the prompt; only then is it a Verifier note with its counterexample. When the attempts have not arrived, every entry that needs them is PENDING INPUT; the CLO review, with no files in the container, marked them so rather than inventing entries.
+Severity has two values only: Critical and Nice to have, never Major, Minor or Cosmetic. Auto QC ("Severity Calibrated") grades the label against the entry's own wording, one failure per run, so recheck every entry of the same kind before resubmitting.
+
+- Critical: a wrong value, fact, formula, check result or pass/fail status; a prompt instruction not followed; invented support; missing or broken required content, including a latent formula feeding a required output and inputs that do not flow through where the prompt asks for a live model; anything left over from a Critical fix.
+- Nice to have: only when every displayed figure is correct and nothing required is missing (file properties, spacing, a shifted header, paragraph placement, an added sensitivity or explanation). Its wording says so and never quotes a wrong figure; split an entry that mixes a wrong value with a presentation point.
+- Never lower a severity because the conclusion still holds, the convention is disclosed or the figure looks reasonable. An over-call is also a failure: a "pure formatting nitpick that leaves the output usable as-is" is Nice to have.
+
+After a severity change, give the user a per-field list of the labels, because the platform field keeps the old one until it is changed, and the golden step pre-loads whatever the platform stored. Write each issue to stand alone, and when an issue moves fields, say "delete Issue N from <field>" so it is not pre-loaded twice.
+
+A model failing a verifier is evidence about the model unless the requirement is not a reasonable reading of the prompt; only then is it a Verifier note with its counterexample. When the attempts have not arrived, every entry that needs them is PENDING INPUT; the CLO review, with no files in the container, marked them so rather than inventing entries.
 
 Example (LHF Model 1, from the Final Review evidence):
 
-> output/2025_fee_close_model.xlsx, correctness — Issue 1. Perf_Fee_Calc!C66 =SUM(S5:S16) produces the recorded redeemed-portion result from a month-end proxy instead of a test computed at each redemption; the rest of the performance-fee mechanics match the golden. The one defect fails both workbook_performance_fee_mechanics and workbook_performance_fee_redeemed_portion. Fix: replace the proxy at Perf_Fee_Calc!C66 with a redeemed-portion test computed by formula at each redemption date; the Final Review evidence did not cover Model 1's memo, so the ripple to it is NOT VERIFIABLE.
+> output/2025_fee_close_model.xlsx, Correctness — Critical. Perf_Fee_Calc!C66 =SUM(S5:S16) produces the recorded redeemed-portion result from a month-end proxy instead of a test computed at each redemption; the rest of the performance-fee mechanics match the golden. The one defect fails both workbook_performance_fee_mechanics and workbook_performance_fee_redeemed_portion. Fix: replace the proxy at Perf_Fee_Calc!C66 with a redeemed-portion test computed by formula at each redemption date; the Final Review evidence did not cover Model 1's memo, so the ripple to it is NOT VERIFIABLE.
 
-## D. Golden Data (lessons transferred)
+## D. Golden Data
+
+Two forms use this template: a Golden Data review of an existing golden (APPROVE or REJECT per deliverable), and the golden step that follows Model Output Review, where you build the golden from a chosen base model.
 
 Entries: one per deliverable, then the overall verdict.
 
 - APPROVE: "<deliverable path> — APPROVE." plus at most 30 words: it passes every verifier, its key chain recomputes from source, and whether cached values replaced recalculation.
 - REJECT: a template A note whose Fix names the deliverable, a quoted locator (sheet and cell, section, slide) and the exact correction.
 - Overall: "Golden Data — APPROVE." or REJECT naming the deliverables. Where the golden passes a verifier you reject, add "The golden passes <verifier>, so the flaw lies in grading other submissions, not in the golden."
+
+Golden step after Model Output Review (seen on HWI and BKS). The user picks the base model, usually the one with fewer Critical MOR issues; start from that model's own output files and name the deliverables to upload by their output paths. Each golden file then shows "Fix reported issues Required 0 / N" ("Issues you found in Model Output Review are pre-loaded below as improvement items. Edit or expand the wording if needed, then confirm each one is fixed in your new golden."), one item per base-model MOR issue, labelled severity plus category, with cross-file Additional Feedback items in both files' lists and a "Fixed in new golden" confirmation on each. After each list comes "Additional Issues: any additional issues you found and fixed in your new golden… the specific issue you found and how you fixed it — 1–2 sentences."
+
+- Confirm each pre-loaded item once it is fixed, and edit its wording only where the platform broke it: asterisks are swallowed ("=Valuation!B9Valuation!B10") and straight quotes turn curly, so write formulas in a form that survives and ask the user to check what was saved; stale MOR cross-references ("under Issue 10") survive too. An item pre-loaded twice (HWI's Read_Me row 19) is fixed once and confirmed twice, saying the one fix closes both. Before this step, reconcile any MOR field moves and deletions with what the platform saved, because the step pre-loads the platform's copy.
+- Treat the MOR fixes as the golden's specification; where two of them conflict, settle it before building and tell the user which you chose, never leave "one decision is yours" open.
+- Build by editing formulas, not pasting values; recalculate the whole workbook; read every value back for error cells and formulas without a saved result; confirm every control on the checks sheet reads zero; take every new figure from the recalculated workbook and investigate any difference rather than forcing it; rebuild one key chain independently; search the memo body, tables, headers, footers, workbook text and comments for every stale figure and tie each memo figure to its cell; render the memo (page count, closing line) and set the file properties; confirm the headline decision still holds. The orchestrator re-checks the key figures before handing the files over.
+- Leftovers from the reported fixes are the main source of Additional Issues (HWI's stale "$2.13", "$19.75" and "+5.04" after the corporate-cost fix). Give one list per golden file, each change once under the file it was made in, each entry one or two sentences (the defect with its locator and old figure, then the fix with the new figure), each labelled Critical or Nice to have from the start: Critical for a wrong value or logic, an unmet instruction, invented support or a leftover from a Critical fix; Nice to have only when the value was already right, and the entry says so.
+- Fix only genuine defects. An added sensitivity must not reintroduce a wrong figure the MOR flagged (BKS's sensitivities brought back 48,350,086.83 and 72,525,130.24), and any extra is checked against every verifier that could look for that number.
+- Reply in this order, per golden file: the confirmations for its pre-loaded items, then its Additional Issues, then the output path to upload it under. Save the built files in the scratchpad and hand them to the user as files; they are deliverables, not answer files.
 
 Fix log. You correct the golden only here and in Sample Calibration E5, and only where it is genuinely wrong. One paragraph per fix, in this order: the issue it closes (carried-forward issue number, or the verifier that failed on the golden) → root cause in the source or output logic → the change (file, location, old → new) → downstream propagation (each calculation, chart, table, recommendation and narrative line updated) → independent verification (recompute, cross-foot or authority check) → regression check (what was re-read) → status: FIXED, NOT FIXED or ESCALATE.
 
@@ -143,62 +172,56 @@ Example (LHF golden, built from the Final Review evidence):
 >
 > Golden Data — APPROVE.
 
-## E. Sample Calibration (lessons transferred)
+## E. Sample Calibration
 
-Grade every attempt against every verifier yourself, with evidence, before the judge's verdict is shown; then reconcile. Sections in order:
+The panel unlocks one verifier at a time. An orange circle needs a response before you can move on; a green check means a field is filled, not approved; an LLM verifier is graded by three judges, majority wins; a triangle warning marks a row where your grade and the judge's differ, and every one must be resolved before the verifier closes. Answer in the platform's order for each verifier; never substitute a free-form report for these fields.
 
-E1. Attempt grading, one line per attempt and verifier: "Attempt 2, <verifier_id> — FAIL. Judge PASS; DISAGREE." then the deciding cell, sentence or slide. A PASS carries at most 30 words of evidence. A FAIL or a DISAGREE carries a note: what is wrong, the correct value or element, and why the judge is wrong, or, if it is right, "changed because <new evidence>". Apply the template C model false-fail test before calling a verifier unfair.
+E1. Grade each attempt yourself, PASS or FAIL, before reading the judge: "Attempt 2 — FAIL." with the deciding cell, sentence or slide in at most 30 words. Then resolve each triangle: open the attempt, read "Why the Judge Marked Attempt N Pass/Fail", and either agree with the judge (no further action) or stand by your grade with one or two sentences of evidence. Apply the template C model false-fail test before calling a verifier unfair.
 
-E2. Calibration questions, five one-line answers per verifier, each choosing the platform's option and giving the reason:
+E2. The five required questions, each choosing the platform's option and giving the reason in one line:
 
-1. Source: required by the prompt (quote the snippet), by the source data (name the files), implicitly required (why), or required nowhere and so unfair (why).
-2. One thing: yes, or no with what to split by the coupling test.
-3. Clear bar: yes, or no with the ambiguity stated as a counterexample.
-4. Grader has what it needs: yes, or no with what must be inlined.
-5. If it fails: critical (the answer is wrong without it) or nice to have (why).
+1. "Where is this requirement sourced?" Explicitly required by the prompt (quote the snippet); Explicitly required by the source data (name the file); Implicitly required to do this work well (why a competent professional would do it); or Not required anywhere — unfair to verify (why). That last option deletes the verifier at the next regeneration; use it for checks nobody asked for, including existence-only and cross-file checks the platform pushes.
+2. "Does this check test just one thing?" Yes, or No listing the separate concepts. Split by concept, not by detail: "Team A includes Persons 1–4" is one question; "includes Persons 1–4 and finished first" is two. Keep it one check if it can be phrased as one yes/no question or its details add up to one answer (a roster, one calculation, one table); split only when an "and" joins different ideas that could pass or fail independently. Every concept you list comes back as its own verifier, so ten checks marked as testing three things return about thirty.
+3. "Is it clear what should pass and what should fail?" Yes, or No with the rule spelled out both ways ("Passes if the memo states a dollar variance and a one-sentence cause; fails if either is missing"). No rewords the check in place; it never deletes or adds one, so use it for any change you want short of deletion.
+4. "Does the grader have everything it needs to judge this?" Yes, or No naming the exact facts or values to inline ("the prior-quarter net income of 1,240,131"), not just where they come from.
+5. "What happens if an answer fails this check?" Critical (the answer is wrong without it, a hard requirement) or Nice to have (it improves an already-correct answer). The label only sets the weight; Nice to have never deletes a check. Importance is never a reason to reject.
 
-E3. Coverage gaps, one entry per gap: the target artifact the contract names, the new verifier's PASS and FAIL conditions, where the obligation comes from (prompt quote, source file, implied), and critical or nice to have. None: "No coverage gaps identified."
+E3. Coverage gaps: "Add gap" with the exact wording of the new check, where it is sourced, the artifact it targets and its PASS and FAIL conditions, or "No gaps". This is one of only two ways a verifier is added.
 
-E4. Redundant verifiers, one entry per overlap: the verifiers, the single wrong value that would fail both on the same artifact, and the remedy, either a merge naming the surviving owner of every obligation or an inward boundary sentence on the non-owner ("This criterion assesses only X; ignore any error in Y when scoring it."). Verifiers that share amounts but grade different obligations are not an overlap. None: "No redundant verifiers identified."
+E4. Redundant verifiers: when two or more checks grade the same concept against the same artifact, select them, describe what they redundantly check, and choose the one to keep; the rest are deleted. To change a check rather than delete one, mark it vague (E2.3) instead.
 
-E5. Golden fixes, one template D fix-log entry per fix, opening with the verifier that failed on the golden, once you have decided whether the golden or the verifier is wrong. None: "Golden data passes all verifiers — no fixes required."
+E5. Golden failing a verifier: first decide whether the verifier or the golden is wrong. A flawed verifier is reworked and the golden left alone; a sound verifier the golden truly fails is fixed in the golden, never by weakening the verifier. To fix the golden, download it from File Preview, edit it offline, click "Fixed in updated Golden" and describe what was wrong and what changed, then "Attach updated golden". Do this for every verifier the golden fails, except those carrying a note that the verifier is being updated: leave the golden alone for those. Log each fix in the template D form. A golden defect or coverage gap you find during calibration lands in a field (a "No" answer, a gap, or a golden fix) or is named to the user in one line; never drop it silently. When attempts arrive as files, match each to its model or the golden by content before grading.
 
-E6. Verifiers flagged for regeneration, one template A defect note per verifier: the reason (vague, overlapping, unfair, coverage gap, runtime impossible), the counterexample the probe battery found, and the Fix. A judge that flips between attempts needs a sharper anchor, not a wider band. Extraction truncation is an escalation; a population range that misses part of the business population is a defect. None: "No verifiers flagged for regeneration."
+E6. After regeneration, re-review by label. NEW checks come from a split or a gap; CHANGED ones usually from a vague mark; REMOVED ones from "Not required anywhere" or a redundancy choice, and nothing else adds or deletes a verifier. GRADE CHANGED means the check is unchanged but an automated grade flipped between runs (grading varies run to run, and an updated golden can change results): accept the new grade or stand by yours, which feeds the disagreement into the next regeneration. No label means unchanged; no re-review is needed.
 
-E7. Golden consistency, from the template D checklist: "Golden consistency check — PASS." or FAIL naming the failed item, with its fix logged in E5.
+E7. Set check before submitting: every outcome a correct solution must reach is graded by at least one check that a wrong answer fails, and each required file has a primary-correctness check; checks separate the golden from a plausible-but-wrong attempt (drop default-pass checks); the hardest analytical steps are graded, not only surface checks, and mandatory cautions and exclusions are covered; no two checks grade the same condition on the same artifact; each check is gradeable on its own; at least one check penalises unsolicited additions, naming the specific forbidden artifacts (extra files or content the prompt excludes, never more thorough correct analysis); no existence-only, filename-only or format-restating checks.
 
-E8. Summary for Final Review, one line each:
-
-- Verifiers passed by the golden: N.
-- Verifiers failed by the golden, now fixed: N.
-- Verifiers flagged for regeneration: N, named.
-- Coverage gaps added: N.
-- Redundant overlaps identified: N.
-- Golden consistency check: PASS, or FAIL with the item.
-- Judge panel: config.models as recorded, and any judge-panel seat change.
-- Key decisions: one line per non-obvious grading or calibration call.
-
-No calibration run is in the evidence, so this template has no filled example.
+When only verifier names are pasted, every field is PENDING INPUT; never grade from a name. Hold the line: approve what is sound, reject what is defective, keep feedback atomic and anchored to something observable (vague feedback comes back as a vague verifier), and fix the golden or the check, never weaken a sound verifier to make the golden pass.
 
 ## F. Final Review
 
-A verifier rejection ends the task, so set the bar once and block only when:
+Rejecting Task Design, a source document, the prompt or the golden ends the task; a verifier REJECT sends that verifier back for repair and the task continues. A wrong task shipped and a correct task terminated are both failures, so every verdict comes out of the multi-round review in the Final Review command and must not change when the user asks "are you sure?". Reject a non-verifier artifact only for a defect a correct solver cannot work around that the sources, the authority order and the prompt do not resolve. Set the verifier bar once and block only when:
 
 - (a) the rubric misstates a governing term;
 - (b) a realistic submission is mis-graded, shown on a supplied output or on a concrete submission under an accepted reading;
-- (c) the golden fails a sound verifier, once you have decided which side is wrong.
+- (c) where the verifier and the golden disagree, the verifier is the one that is wrong.
+
+Reject the golden, which ends the task, only when it truly fails a sound verifier or recomputes wrong from source, after deciding which side is wrong.
 
 Everything else gets an optional line: stale figures that change no result, hypothetical overlap or bundling, reasonable placement or format readings, extractor observability (NOT VERIFIABLE plus escalation), weight or difficulty labels, mechanical source slips, and planned difficulty.
+
+A placement or format reading is optional only when the prompt supports it. A PASS condition the prompt never asks for (a literal figure or phrase, a label, a closed list, a fixed placement, a provider band the prompt asks the solver to challenge) or a criterion that accepts one reading where the prompt and sources allow another fails a correct answer, so it meets (b); External QC reviews (solver runs or file reads) showed several such Final Review approvals to be true positives. Grade the golden literally against every FAIL clause, labels and ordering wording included, and test each pass case against the governing standard, not only the arithmetic. Approval sends the task to External QC, where only verifier.json can change, so the task must be final before you approve: anything already known to be wrong is fixed before Final Review, not left for rework.
 
 The judge checks on the Final Review screen are display-only; answer the ship-ready Approve/Reject fields. Notes cite only what the gate shows (instruction, sources, verifier.json, golden); model outputs are a private test bed, so write a counterexample as a fully described submission or a stated edit to the golden. If the prior notes are absent, say the fix list is inferred and name the missing file. Re-verify every claimed fix in the current files and mark each prior failure verified fixed, false positive or still open in your working notes; a still-open item reaches the output only as a note that meets the bar. Judge in order Task Design, Source Documents, each verifier, Golden; enter them in the form's screen order:
 
 1. Lead: one line with task_id, revision and the deliverables reviewed.
 2. Task Design: one short paragraph, judged on its own terms, never against verifier scope. APPROVE when the scenario is realistic, deliverables have clear purposes, sources are mapped, and anomalies are realised and carried into instruction.md.
-3. Source Documents: one short paragraph, through the planned-difficulty test, with the cover and notes sheets and the prompt's caveats read first.
+3. Source Documents: one short paragraph per source field on screen, through the planned-difficulty test, with the cover and notes sheets and the prompt's caveats read first.
+3a. Prompt: one short paragraph where the screen shows a prompt field.
 4. Verifiers: one line each, "<name> — APPROVE.", with a template A defect note directly under each REJECT.
-5. Golden Data: one short paragraph applying the template D APPROVE test and grading-flaw sentence.
+5. Golden Data: one short paragraph per golden deliverable field, applying the template D APPROVE test and grading-flaw sentence.
 6. The optional line and any escalation lines.
-7. Close with "Overall REJECT, because one verifier rejection ends the task: <names>." or "Overall APPROVE." If a REJECT rests on a branch no submission took, say so in one sentence and keep it.
+7. Close with one line: "Overall REJECT, which ends the task: <rejected Task Design, source, prompt or golden>." when any non-verifier artifact is rejected; "Overall: verifier REJECTs only — <names> go back for repair; the task continues." when only verifiers are rejected; or "Overall APPROVE." If a REJECT rests on a branch no submission took, say so in one sentence and keep it.
 
 Example (LHF v24, the round-3 answer the user accepted, restated to this template; other verifier lines omitted):
 
@@ -216,7 +239,7 @@ Example (LHF v24, the round-3 answer the user accepted, restated to this templat
 >
 > Optional: workbook_performance_fee_class_entitlement's preamble gives the Class R HWM-only excess as $139,300; it should read $202,616 (17.5% × ($38,967,718 − $37,809,911)), and the pass test is still $0 for every class.
 >
-> Overall REJECT, because one verifier rejection ends the task: workbook_performance_fee_mechanics, workbook_ltd_giveback_rollforward and memo_giveback_conclusion. Every submission so far concluded a $0 give-back, so the two cap rejections rest on a branch no submission took; they stand because the rubric misstates Part V 5.3.
+> Overall: verifier REJECTs only — workbook_performance_fee_mechanics, workbook_ltd_giveback_rollforward and memo_giveback_conclusion go back for repair; the task continues. Every submission so far concluded a $0 give-back, so the two cap rejections rest on a branch no submission took; they stand because the rubric misstates Part V 5.3.
 
 ## G. Escalation
 
@@ -229,3 +252,23 @@ A source defect is never only an escalation: a regenerator acts on notes and an 
 Example (ACL; accepted):
 
 > ESCALATE TO: engineering | ISSUE: possible extractor truncation or dropped cached values on full-workbook extraction | EVIDENCE: the 38-loan and carry-forward rubrics need every loan and stored values visible | WHY THE FORM CANNOT RESOLVE IT: instruction.md fixes no tab names, so neither rubric can be sheet-scoped without an unstated requirement | RECOMMENDED ACTION: raise the extraction size limit and include cached values for these two verifiers.
+
+## H. External QC
+
+The stage after Final Review and the last before TFRL; reference 10 holds the workflow, the true or false positive test and the mandatory multi-pass review. Only verifier.json changes are in scope.
+
+1. Lead, one short paragraph: the outcome (approved: every finding disagreed; JSON revision: every agreed finding is a verifier finding; or task rejected: an agreed finding needs a prompt, source or golden change), the tally, and the closest call.
+2. One entry per finding card, in screen order, headed exactly as on screen: "Review 900309453 · finding 1 — AGREE." An Agree is one or two sentences giving the defect present now with its quoted locator, correcting any wrong side claim, and "Changed from the Final Review APPROVE because …" where that applies. A Disagree is one paragraph, two at most: why the finding's own complaint does not hold, the proof (criterion quote, prompt clause, source cell or figure) and "No change needed to verifier.json."; a grader or infrastructure fault adds "the fix belongs in the grading infrastructure" and a template G line. A bundled card names each listed criterion that is a false positive.
+3. Fix request for the tracker's Additional Comments cell, only when a verifier finding is agreed: task ID and version, then per criterion the findings it resolves, the quoted current text, the exact replacement and any remediation item not to adopt, then "The golden passes every changed criterion." once you have re-graded it. Fixes agreed at Final Review or in an earlier External QC round that are missing from this version go in one separate sentence; any other defect QC did not raise goes to the user in one line, not into the request. Written for an engineer who has not read the task: no cross-references.
+4. The tracker row's other reviewer fields, each PENDING INPUT if the user has not given it: Trainer Name (the task claimant), Email (the Turing address), Task ID (full, exactly as RL World shows it) and RL-World Task Link (with its version segment). Close with one line: once QC returns the file, upload it on the Content tab, set "Updated on RL World" to Yes, then give fresh verdicts on whatever comes back.
+5. Escalation lines, then nothing else: no Final Review field verdicts and no Overall line. A corrected verifier.json only on request.
+
+Example (lxwjwnav-1, an illustrative restatement: the quotes and dates come from the session, the replacement wording is illustrative, and the submitted answer also added a scenario date to instruction.md, which is out of scope at External QC):
+
+> AGREE on all three findings: one verifier defect, a JSON revision. The closest call is that the runs QC cites dated actions from a sandbox clock reading 28 October, an infrastructure fault escalated below; the Agree rests on the criterion's fixed cutoff, which the prompt never states and which also fails a plan dated from the source Close Calendar.
+>
+> Review 355952 · finding 1 — AGREE. deck_close_action_plan requires "each with a specific calendar date on or before 20 October 2026", a date the prompt never states, and the source Close Calendar itself schedules "Distribute final close book" on 21 October, so a correct plan dated from the calendar fails.
+>
+> Additional Comments: Task as-finance_and_insurance-financial_and_investment_analysts-20260925-053924-lxwjwnav-1, version <NN> (PENDING INPUT). deck_close_action_plan (resolves Review 355952 finding 1, Review 355954 finding 1, Review 900309453 finding 1): replace "each with a specific calendar date on or before 20 October 2026" with "each with a specific calendar date, in the Close Calendar's order, with pre-certification actions dated before post-certification steps such as distributing the final close book". Do not adopt "accept later actions when the deck says certification has passed". The golden passes the changed criterion.
+>
+> ESCALATE TO: engineering | ISSUE: sandbox clock later than the scenario date | EVIDENCE: the cited solver runs dated actions from 28 October 2026 | WHY THE FORM CANNOT RESOLVE IT: the clock is environment state, not task content | RECOMMENDED ACTION: pin the sandbox date to the scenario date.
