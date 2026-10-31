@@ -117,7 +117,7 @@ Optional: workbook_performance_fee_class_entitlement's preamble gives the Class 
 
 Overall: verifier REJECTs only — workbook_performance_fee_mechanics, workbook_ltd_giveback_rollforward and memo_giveback_conclusion go back for repair; the task continues. Every submission so far concluded a $0 give-back, so the two cap REJECTs rest on a branch no submission has taken; they stand.
 
-Lesson: set the bar and the terminal consequence before grading and quote both in every brief; judge Task Design before and apart from the verifiers; when challenged, re-test each item against the same bar instead of reversing wholesale, and state what evidence changed.
+Lesson: set the bar and which rejections end the task before grading and quote both in every brief; judge Task Design before and apart from the verifiers; when challenged, re-test each item against the same bar instead of reversing wholesale, and state what evidence changed.
 
 ### Why six Trainer Reviews bounced
 

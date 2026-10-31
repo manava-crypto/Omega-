@@ -131,7 +131,9 @@ Rejecting Task Design, a source document, the prompt or the golden ends the task
 
 - (a) the rubric misstates a governing term, which encodes a wrong rule in grading even if no submission has hit it yet;
 - (b) a realistic submission is mis-graded, shown on a supplied output or on a concrete submission under an accepted reading;
-- (c) the golden fails a sound verifier, once you have decided which side is wrong; this is a golden REJECT and ends the task, so it needs the golden recomputed from source and the verifier shown sound.
+- (c) where the verifier and the golden disagree, the verifier is the one that is wrong.
+
+Reject the golden, which ends the task, only when it truly fails a sound verifier or recomputes wrong from source, after deciding which side is wrong; it needs the golden recomputed from source and the verifier shown sound.
 
 Do not reject for cosmetic or pipeline-only issues that do not impair correctness, usability, fairness or gradeability. Everything outside the bar gets an optional line: stale figures that change no result, hypothetical overlap or bundling, reasonable placement or format readings, extractor observability (NOT VERIFIABLE plus escalation), weight or difficulty labels, mechanical source slips, and planned difficulty. Overlap blocks only when a supplied or concretely constructed submission loses two verifiers for one defect. A placement or format reading is optional only when the prompt supports it: a PASS condition the prompt never asks for (a literal figure, label, closed list or fixed placement) or a single accepted reading where the prompt and sources allow another fails a correct answer and meets (b), as External QC reviews (solver runs or file reads) showed for several such Final Review approvals. Grade the golden literally against every FAIL clause and test each pass case against the governing standard. Approval sends the task to External QC, where only verifier.json can change, so approve only a final task.
 

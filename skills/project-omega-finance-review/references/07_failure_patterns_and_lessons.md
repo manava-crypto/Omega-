@@ -330,16 +330,16 @@ Read before every verdict. Each pattern is a failure from reviews of more than t
 
 ### F60. Golden-step leftovers and reintroduced errors
 - Rule: after every reported fix, search every text surface (memo body, tables, headers, footers, workbook text, comments, notes) for the old figure, and never let an added sensitivity or check reintroduce a figure the MOR flagged.
-- Check: a grep for each old figure returns nothing outside clearly labelled history.
-- Evidence: HWI's corporate-cost fix left "$2.13", "$19.75" and "+5.04" stale on other sheets; BKS's added sensitivities brought back 48,350,086.83 and 72,525,130.24.
+- Check: a search for each old figure finds it nowhere in the golden, sensitivities included.
+- Evidence: HWI's corporate-cost fix left "$2.13", "$19.75" and "+5.04" stale in the memo and on the Data_Issues sheet; BKS's added sensitivities brought back 48,350,086.83 and 72,525,130.24.
 
 ### F61. Golden-step lists written once for both files, or unlabelled
 - Rule: Additional Issues go one list per golden file, each change once under the file it was made in, one or two sentences each, labelled Critical or Nice to have from the start.
-- Check: every entry names its file, locator, old and new figure, and a severity that matches its wording.
-- Evidence: BKS's combined list drew "seperately for each golden"; both users had to ask "are they critical or nice to have?".
+- Check: every entry names its file and locator, gives the old and new figure where a value changed, and carries a severity that matches its wording.
+- Evidence: BKS's combined list drew "seperately for each golden"; both users had to ask for labels ("can you confirm if these additional issues are nice to have or critical"; "and are they critical or nice to have?").
 
 ### F62. Pre-loaded text pasted back as received
-- Rule: repair what the platform broke in pre-loaded items (swallowed asterisks, curly quotes, stale cross-references, duplicate items), and reconcile severity labels with what the platform saved before the golden step.
+- Rule: repair what the platform broke in pre-loaded items (swallowed asterisks, curly quotes, stale cross-references); an item pre-loaded twice is fixed once and confirmed twice, saying the one fix closes both; and reconcile MOR field moves and deletions with what the platform saved before the golden step.
 - Check: every formula in a confirmation is valid as written; no item appears twice.
 - Evidence: HWI's "=Valuation!B9Valuation!B10" and its duplicated Read_Me row 19; BKS's "=IF(‘C Change Log’!K7=””,””,…)".
 
@@ -377,7 +377,7 @@ Trainer overrides do not carry across versions: when a check re-fails content an
 
 ## Final Review bar and the LHF case
 
-Rejecting Task Design, a source, the prompt or the golden ends the task; a verifier REJECT sends that verifier back for repair. Block a verifier only when (a) the rubric misstates a governing term; (b) a realistic submission is mis-graded, shown on a supplied output or on a concrete submission under an accepted reading; or (c) the golden fails a sound verifier, once you have decided which side is wrong. Everything else gets an optional line: stale figures that change no result, hypothetical overlap or bundling, reasonable placement or format readings, extractor observability (NOT VERIFIABLE plus escalation), weight or difficulty labels, mechanical source slips, and planned difficulty.
+Rejecting Task Design, a source, the prompt or the golden ends the task; a verifier REJECT sends that verifier back for repair. Block a verifier only when (a) the rubric misstates a governing term; (b) a realistic submission is mis-graded, shown on a supplied output or on a concrete submission under an accepted reading; or (c) where the verifier and the golden disagree, the verifier is the one that is wrong. Reject the golden, which ends the task, only when it truly fails a sound verifier or recomputes wrong from source. Everything else gets an optional line: stale figures that change no result, hypothetical overlap or bundling, reasonable placement or format readings, extractor observability (NOT VERIFIABLE plus escalation), weight or difficulty labels, mechanical source slips, and planned difficulty.
 
 LHF round one rejected Task Design against verifier scope, Source Documents over conditions their own notes explain, and 14 verifiers. Against the bar both layers went to APPROVE and 11 REJECTs fell: wrong anchors that changed no result (V15, V16, V18, V24), hypothetical overlap or edge cases (V3, V36), a workbook-wide check that `08_excel_verifier_scoping.md` allows (V21), and reasonable readings of the prompt (V14, V33, V35, V38). Three stood: a double penalty shown on a supplied output (workbook_performance_fee_mechanics), and a 35% cap missing Part V 5.3's documented-taxes condition (workbook_ltd_giveback_rollforward, memo_giveback_conclusion). The golden passed all three, so the flaws lie in grading other submissions. The closing line, as the bar requires it:
 

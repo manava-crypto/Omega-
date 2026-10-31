@@ -149,11 +149,12 @@ Entries: one per deliverable, then the overall verdict.
 
 Golden step after Model Output Review (seen on HWI and BKS). The user picks the base model, usually the one with fewer Critical MOR issues; start from that model's own output files and name the deliverables to upload by their output paths. Each golden file then shows "Fix reported issues Required 0 / N" ("Issues you found in Model Output Review are pre-loaded below as improvement items. Edit or expand the wording if needed, then confirm each one is fixed in your new golden."), one item per base-model MOR issue, labelled severity plus category, with cross-file Additional Feedback items in both files' lists and a "Fixed in new golden" confirmation on each. After each list comes "Additional Issues: any additional issues you found and fixed in your new golden… the specific issue you found and how you fixed it — 1–2 sentences."
 
-- Confirm each pre-loaded item once it is fixed, and edit its wording only where the platform broke it: asterisks are swallowed ("=Valuation!B9Valuation!B10"), straight quotes turn curly, so write formulas in a form that survives and ask the user to check what was saved; stale MOR cross-references ("under Issue 10") and duplicate items survive too, so delete the duplicate rather than fixing it twice. Before this step, reconcile the MOR severity labels with what the platform saved, because the step pre-loads the platform's copy.
+- Confirm each pre-loaded item once it is fixed, and edit its wording only where the platform broke it: asterisks are swallowed ("=Valuation!B9Valuation!B10") and straight quotes turn curly, so write formulas in a form that survives and ask the user to check what was saved; stale MOR cross-references ("under Issue 10") survive too. An item pre-loaded twice (HWI's Read_Me row 19) is fixed once and confirmed twice, saying the one fix closes both. Before this step, reconcile any MOR field moves and deletions with what the platform saved, because the step pre-loads the platform's copy.
 - Treat the MOR fixes as the golden's specification; where two of them conflict, settle it before building and tell the user which you chose, never leave "one decision is yours" open.
 - Build by editing formulas, not pasting values; recalculate the whole workbook; read every value back for error cells and formulas without a saved result; confirm every control on the checks sheet reads zero; take every new figure from the recalculated workbook and investigate any difference rather than forcing it; rebuild one key chain independently; search the memo body, tables, headers, footers, workbook text and comments for every stale figure and tie each memo figure to its cell; render the memo (page count, closing line) and set the file properties; confirm the headline decision still holds. The orchestrator re-checks the key figures before handing the files over.
 - Leftovers from the reported fixes are the main source of Additional Issues (HWI's stale "$2.13", "$19.75" and "+5.04" after the corporate-cost fix). Give one list per golden file, each change once under the file it was made in, each entry one or two sentences (the defect with its locator and old figure, then the fix with the new figure), each labelled Critical or Nice to have from the start: Critical for a wrong value or logic, an unmet instruction, invented support or a leftover from a Critical fix; Nice to have only when the value was already right, and the entry says so.
 - Fix only genuine defects. An added sensitivity must not reintroduce a wrong figure the MOR flagged (BKS's sensitivities brought back 48,350,086.83 and 72,525,130.24), and any extra is checked against every verifier that could look for that number.
+- Reply in this order, per golden file: the confirmations for its pre-loaded items, then its Additional Issues, then the output path to upload it under. Save the built files in the scratchpad and hand them to the user as files; they are deliverables, not answer files.
 
 Fix log. You correct the golden only here and in Sample Calibration E5, and only where it is genuinely wrong. One paragraph per fix, in this order: the issue it closes (carried-forward issue number, or the verifier that failed on the golden) → root cause in the source or output logic → the change (file, location, old → new) → downstream propagation (each calculation, chart, table, recommendation and narrative line updated) → independent verification (recompute, cross-foot or authority check) → regression check (what was re-read) → status: FIXED, NOT FIXED or ESCALATE.
 
@@ -203,7 +204,9 @@ Rejecting Task Design, a source document, the prompt or the golden ends the task
 
 - (a) the rubric misstates a governing term;
 - (b) a realistic submission is mis-graded, shown on a supplied output or on a concrete submission under an accepted reading;
-- (c) the golden fails a sound verifier, once you have decided which side is wrong (a golden REJECT, which ends the task).
+- (c) where the verifier and the golden disagree, the verifier is the one that is wrong.
+
+Reject the golden, which ends the task, only when it truly fails a sound verifier or recomputes wrong from source, after deciding which side is wrong.
 
 Everything else gets an optional line: stale figures that change no result, hypothetical overlap or bundling, reasonable placement or format readings, extractor observability (NOT VERIFIABLE plus escalation), weight or difficulty labels, mechanical source slips, and planned difficulty.
 
@@ -213,9 +216,10 @@ The judge checks on the Final Review screen are display-only; answer the ship-re
 
 1. Lead: one line with task_id, revision and the deliverables reviewed.
 2. Task Design: one short paragraph, judged on its own terms, never against verifier scope. APPROVE when the scenario is realistic, deliverables have clear purposes, sources are mapped, and anomalies are realised and carried into instruction.md.
-3. Source Documents: one short paragraph, through the planned-difficulty test, with the cover and notes sheets and the prompt's caveats read first.
+3. Source Documents: one short paragraph per source field on screen, through the planned-difficulty test, with the cover and notes sheets and the prompt's caveats read first.
+3a. Prompt: one short paragraph where the screen shows a prompt field.
 4. Verifiers: one line each, "<name> — APPROVE.", with a template A defect note directly under each REJECT.
-5. Golden Data: one short paragraph applying the template D APPROVE test and grading-flaw sentence.
+5. Golden Data: one short paragraph per golden deliverable field, applying the template D APPROVE test and grading-flaw sentence.
 6. The optional line and any escalation lines.
 7. Close with one line: "Overall REJECT, which ends the task: <rejected Task Design, source, prompt or golden>." when any non-verifier artifact is rejected; "Overall: verifier REJECTs only — <names> go back for repair; the task continues." when only verifiers are rejected; or "Overall APPROVE." If a REJECT rests on a branch no submission took, say so in one sentence and keep it.
 
