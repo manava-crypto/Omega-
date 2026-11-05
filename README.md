@@ -73,14 +73,15 @@ Omega-/
             ├── 07_failure_patterns_and_lessons.md   # probe battery, pre-send checks
             ├── 08_excel_verifier_scoping.md         # workbook scoping, extractor limits
             ├── 09_platform_checks_and_auto_qc.md    # platform check definitions, Auto QC
-            └── 10_external_qc.md                    # External QC workflow, true/false positive test
+            ├── 10_external_qc.md                    # External QC workflow, true/false positive test
+            └── 11_frg_brief.md                      # short brief for Final Review workflow agents
 ```
 
 ## Running the agent in Claude Code
 
 The copilot is packaged as a Claude Code subagent, and opening this repository in Claude Code is enough to pick it up. `CLAUDE.md` routes any gate request to the agent even when no slash command is used, so "run trainer review on this pack" works as well as `/omega-trainer-review ./task-pack`.
 
-`/omega-final-review` and `/omega-external-qc` launch the multi-agent workflows in `.claude/workflows/` (independent reviews, adversarial adjudication rounds until each verdict is confirmed twice, and "are you sure?" challenges), so they take longer and use more agents than the other commands; if the Workflow tool is unavailable, the command runs the same rounds with subagents. Each command takes a path to the task pack; `/omega-trainer-review` and `/omega-model-output-review` also run without one, inventorying the files attached or last referenced and confirming the pack first.
+`/omega-final-review` and `/omega-external-qc` launch the multi-agent workflows in `.claude/workflows/` (a shared evidence ledger, independent reviews, judges on contested verdicts with second judges on task-ending ones, and "are you sure?" checks), so they take longer and use more agents than the other commands; if the Workflow tool is unavailable, the command runs the same rounds with subagents. Each command takes a path to the task pack; `/omega-trainer-review` and `/omega-model-output-review` also run without one, inventorying the files attached or last referenced and confirming the pack first.
 
 The agent deliberately has no web access: review is closed-book against the supplied evidence, and gaps are never filled from outside knowledge. Given only a platform link, it asks for the review-artifacts zip and the judge text pasted verbatim. It handles xlsx, csv, pdf, docx, pptx, md and json, opening workbooks for both formulas and cached values, and keeps scripts and extracts in the scratchpad; review output is never written into the repository.
 
