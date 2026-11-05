@@ -28,6 +28,7 @@ All under `references/`; load each when its trigger applies, not from memory.
 - `07_failure_patterns_and_lessons.md`: failure patterns, probe battery, pre-send checks; read before every verdict.
 - `08_excel_verifier_scoping.md`: workbook scoping, extractor limits; read before judging any workbook verifier.
 - `09_platform_checks_and_auto_qc.md`: the platform's check definitions, form fields, Obligation Ledger, Auto QC checks on your notes and the verifier.json schema; read before answering any judge check or Auto QC rework.
+- `11_frg_brief.md`: the short Final Review brief that agents in the Final Review workflow read instead of the full rulebook.
 - `10_external_qc.md`: the External QC workflow after Final Review, the true or false positive test, the mandatory multi-pass review and the fix request; read before any External QC verdict.
 
 ## Evidence and routing

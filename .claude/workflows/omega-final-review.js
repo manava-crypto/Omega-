@@ -1,44 +1,47 @@
 export const meta = {
   name: 'omega-final-review',
-  description: 'Project Omega Final Review: independent reviews, adversarial adjudication rounds until each verdict is confirmed, an "are you sure" challenge, fix reconciliation, then verdict-locked answers checked against Auto QC',
+  description: 'Project Omega Final Review: one shared evidence ledger, two independent reviews, judges only where verdicts are in doubt, a targeted "are you sure" pass, then verdict-locked answers checked against Auto QC',
   whenToUse: 'Run from /omega-final-review once the package, the pasted Final Review screen and any prior notes are saved to files.',
   phases: [
-    { title: 'Inventory', detail: 'match the upload to the screen and list every field' },
-    { title: 'Independent review', detail: 'two full reviews plus an External QC-lens hunter' },
-    { title: 'Adjudicate', detail: 'prosecutor, defender and judges on every contested field until each verdict is confirmed' },
-    { title: 'Challenge', detail: '"are you sure?" passes over every verdict' },
-    { title: 'Write and check', detail: 'fix reconciliation, verdict-locked template F answers, Auto QC pre-check' },
+    { title: 'Ledger', detail: 'match the screen, list every field, build one shared evidence ledger' },
+    { title: 'Review', detail: 'two independent reviews from the ledger' },
+    { title: 'Judge', detail: 'judges only on contested fields; two on any task-ending verdict' },
+    { title: 'Challenge', detail: 'one targeted "are you sure?" pass' },
+    { title: 'Write and check', detail: 'verdict-locked template F answers and one Auto QC pre-check' },
   ],
 }
 
 // args: { pack_dir, screen_file, prior_notes_file?, scratch_dir, user_notes? }
 const A = args || {}
 const S = v => (v == null ? '' : typeof v === 'string' ? v : JSON.stringify(v))
-const AGENT = 'project-omega-finance-review'
-const MAX_ROUNDS = 3
-const CTX = `Task pack directory: ${S(A.pack_dir)}. Pasted Final Review screen: ${S(A.screen_file)}. Prior review notes: ${A.prior_notes_file ? S(A.prior_notes_file) : 'not supplied (say the fix list is inferred)'}. Scratch directory for your working files: ${S(A.scratch_dir)}. ${A.user_notes ? 'User notes: ' + S(A.user_notes) : ''}
-Before any verdict read skills/project-omega-finance-review/SKILL.md, references 07, 08 (workbook verifiers), 09 §1 and §4, and template F of 06. Read every file you rely on in full; recompute from source; never write into the repository.
-The stakes at this gate: rejecting Task Design, a source document, the prompt or the golden ends the task; a verifier REJECT sends that verifier back for repair and the task continues. A wrong task shipped and a correct task terminated are both failures. A non-verifier artifact is rejected only for a defect a correct solver cannot work around that the sources, the authority order and the prompt do not resolve (planned difficulty is approved). A verifier is rejected only when (a) its rubric misstates a governing term, (b) a realistic submission is mis-graded, shown on a supplied output or a fully described submission under an accepted reading (any PASS condition the prompt never asks for, or a single accepted reading where the prompt and sources allow another, meets this), or (c) where verifier and golden disagree, the verifier is the one that is wrong. The golden is rejected only when it truly fails a sound verifier or recomputes wrong from source. Everything else is an optional line.`
+const LEDGER = `${S(A.scratch_dir)}/frg_ledger.md`
+const BRIEF = 'skills/project-omega-finance-review/references/11_frg_brief.md'
+const CTX = `Task pack: ${S(A.pack_dir)}. Pasted Final Review screen: ${S(A.screen_file)}. Prior notes: ${A.prior_notes_file ? S(A.prior_notes_file) : 'not supplied (the fix list is inferred)'}. ${A.user_notes ? 'User notes: ' + S(A.user_notes) + '.' : ''}
+Read ${BRIEF} first; it replaces the full rulebook for this job. The shared evidence ledger is ${LEDGER}: rely on it, and open a task file only to confirm or extend a fact it does not settle. Never write into the repository.`
 
-async function retry(make, tries) {
-  for (let i = 0; i < (tries || 2); i++) { const r = await make(i); if (r) return r }
+async function retry(make) {
+  for (let i = 0; i < 2; i++) { const r = await make(i); if (r) return r }
   return null
 }
 
-phase('Inventory')
+phase('Ledger')
 const INVENTORY = {
   type: 'object',
   properties: {
     mismatch: { type: 'boolean' }, mismatch_reason: { type: 'string' },
     task_id: { type: 'string' }, revision: { type: 'string' },
-    fields: { type: 'array', items: { type: 'object', properties: { field: { type: 'string', description: 'exact on-screen field name' }, kind: { type: 'string', enum: ['task_design', 'source', 'prompt', 'verifier', 'golden', 'other'] } }, required: ['field', 'kind'] }, description: 'every field to answer, in screen order' },
+    fields: { type: 'array', items: { type: 'object', properties: { field: { type: 'string' }, kind: { type: 'string', enum: ['task_design', 'source', 'prompt', 'verifier', 'golden', 'other'] } }, required: ['field', 'kind'] } },
     missing_inputs: { type: 'array', items: { type: 'string' } },
   },
   required: ['mismatch', 'fields', 'missing_inputs'],
 }
 const inv = await retry(i => agent(`${CTX}
 
-Inventory only. Match the upload to the pasted screen (task_id, revision, deliverable paths, verifier names, field count). List every field the screen asks you to answer, in screen order, with its kind and its exact on-screen name (each source file, the prompt, each verifier and each golden deliverable is its own field). Count from the files and the screen, never from memory. Name any missing input (prior notes, verifier plan, a deliverable). Do not give verdicts.`, { label: `inventory#${i}`, phase: 'Inventory', agentType: AGENT, schema: INVENTORY }))
+You build the shared evidence ledger that every later agent will read instead of the raw package, so do the expensive reading once and well.
+1. Match the upload to the pasted screen (task_id, revision, deliverable paths, verifier names, field count); report any mismatch.
+2. List every field the screen asks for, in screen order, with its exact on-screen name and kind (each source file, the prompt, each verifier and each golden deliverable is its own field).
+3. Write ${LEDGER} (create the directory if needed) with, in this order: the instruction's operative clauses quoted with their section; the task design's planned anomalies; per source file its cover or notes text and the facts the task turns on, with locators; the golden's key figures recomputed from source with the formula chain and cell references (say whether you recalculated or read cached values); then per verifier its criterion text verbatim, the figures and clauses it depends on, and whether the golden passes it, quoting the deciding golden cell or sentence; and the prior fixes claimed, each marked holds or does not hold.
+Keep the ledger factual; give no verdicts.`, { label: `ledger#${i}`, phase: 'Ledger', schema: INVENTORY, effort: 'high' }))
 if (!inv) return { stop: true, reason: 'inventory failed' }
 if (inv.mismatch) return { stop: true, reason: 'mismatch: ' + inv.mismatch_reason }
 const NAMES = inv.fields.map(f => f.field)
@@ -46,270 +49,181 @@ const KIND = {}
 for (const f of inv.fields) KIND[f.field] = f.kind
 const FIELD = { type: 'string', enum: NAMES }
 const fieldList = inv.fields.map((f, i) => `${i + 1}. ${f.field} (${f.kind})`).join('\n')
-log(`${NAMES.length} fields on screen for ${inv.task_id || 'the task'}`)
+log(`${NAMES.length} fields; ledger at ${LEDGER}`)
 
-const VERDICT_PROPS = {
+const VP = {
   field: FIELD,
   verdict: { type: 'string', enum: ['APPROVE', 'REJECT', 'PENDING INPUT'] },
-  ground: { type: 'string', description: 'for a REJECT: a, b, c, golden or non-verifier defect; for an APPROVE: why no counterexample exists' },
-  evidence: { type: 'string', description: 'quoted locators and recomputed figures' },
-  counterexample: { type: 'string', description: '"A submission that … would FAIL/PASS because …" for a verifier REJECT' },
+  ground: { type: 'string' },
+  evidence: { type: 'string' },
+  counterexample: { type: 'string' },
   fix: { type: 'string' },
   optional_note: { type: 'string' },
   close_call: { type: 'boolean' },
 }
-const VERDICT = { type: 'object', properties: VERDICT_PROPS, required: ['field', 'verdict', 'ground', 'evidence', 'close_call'] }
-const JUDGED = { type: 'object', properties: { ...VERDICT_PROPS, reason: { type: 'string', description: 'why this verdict survives the strongest case against it' } }, required: ['field', 'verdict', 'ground', 'evidence', 'close_call', 'reason'] }
-const REVIEW = { type: 'object', properties: { verdicts: { type: 'array', items: VERDICT }, escalations: { type: 'array', items: { type: 'string' } } }, required: ['verdicts', 'escalations'] }
-const HUNT = { type: 'object', properties: { candidates: { type: 'array', items: { type: 'object', properties: { field: FIELD, defect: { type: 'string' }, evidence: { type: 'string' } }, required: ['field', 'defect', 'evidence'] } } }, required: ['candidates'] }
+const VERDICT = { type: 'object', properties: VP, required: ['field', 'verdict', 'ground', 'evidence', 'close_call'] }
+const JUDGED = { type: 'object', properties: { ...VP, reason: { type: 'string' } }, required: ['field', 'verdict', 'ground', 'evidence', 'close_call', 'reason'] }
+const REVIEW = {
+  type: 'object',
+  properties: {
+    verdicts: { type: 'array', items: VERDICT },
+    suspects: { type: 'array', items: { type: 'object', properties: { field: FIELD, defect: { type: 'string' } }, required: ['field', 'defect'] }, description: 'External QC-lens suspicions on fields you approved' },
+    escalations: { type: 'array', items: { type: 'string' } },
+  },
+  required: ['verdicts', 'suspects', 'escalations'],
+}
 
-phase('Independent review')
-const [revA, revB, hunt] = await parallel([
+phase('Review')
+const [revA, revB] = await parallel([
   () => retry(i => agent(`${CTX}
 
-You are independent reviewer A. Give a verdict on every field below: re-verify every claimed prior fix, then Task Design on its own terms, each source through the planned-difficulty test, the prompt, every verifier through the probe battery in 07, and each golden deliverable through the Golden Data test (recompute its key chains from source; grade it literally against every FAIL clause). Mark close_call true on any verdict you are not certain of.
-
-Fields:
-${fieldList}`, { label: `review:A#${i}`, phase: 'Independent review', agentType: AGENT, schema: REVIEW })),
+Independent reviewer A. Give a verdict on every field, in screen order, under the bar in the brief. Mark close_call on anything you are not certain of. Fields:
+${fieldList}`, { label: `review:A#${i}`, phase: 'Review', schema: REVIEW, effort: 'high' })),
   () => retry(i => agent(`${CTX}
 
-You are independent reviewer B. Work in the opposite order: first recompute the golden's key figures from the sources and grade the golden literally against every verifier's PASS and FAIL text, then judge every verifier, then the prompt, the sources and Task Design. Give a verdict on every field below and mark close_call true on any verdict you are not certain of.
-
-Fields:
-${fieldList}`, { label: `review:B#${i}`, phase: 'Independent review', agentType: AGENT, schema: REVIEW })),
-  () => retry(i => agent(`${CTX}
-
-You are the External QC-lens hunter. External QC reviews later proved several Final Review approvals wrong. Hunt across every verifier and the golden for exactly those defects: a PASS condition the prompt never asks for (a literal figure or phrase, a label, a closed list, a fixed placement, a hard date the prompt never states, a provider band the prompt asks the solver to challenge); a criterion accepting one reading where the prompt and sources allow another; golden wording that fails its own FAIL clause (labels, ordering wording); a pass case that breaches the governing standard; a double penalty on one defect. Report only candidates you can evidence from the files.
-
-Fields:
-${fieldList}`, { label: `hunter#${i}`, phase: 'Independent review', agentType: AGENT, schema: HUNT })),
+Independent reviewer B. Start from the golden and the verifiers, then the prompt, sources and Task Design. Give a verdict on every field. Also hunt the defects External QC kept finding after Final Review approvals (a PASS condition the prompt never asks for, a single accepted reading where another is defensible, golden wording that fails its own FAIL clause, a pass case breaching the governing standard, one defect failing two verifiers) and list any you suspect on a field you approved under suspects. Mark close_call on anything you are not certain of. Fields:
+${fieldList}`, { label: `review:B#${i}`, phase: 'Review', schema: REVIEW, effort: 'high' })),
 ])
-if (!revA && !revB) return { stop: true, reason: 'both independent reviews failed' }
+if (!revA && !revB) return { stop: true, reason: 'both reviews failed' }
 
-const byField = {}
-for (const n of NAMES) byField[n] = { a: null, b: null, hunt: [] }
-for (const v of (revA ? revA.verdicts : [])) if (byField[v.field]) byField[v.field].a = v
-for (const v of (revB ? revB.verdicts : [])) if (byField[v.field]) byField[v.field].b = v
-for (const c of (hunt ? hunt.candidates : [])) if (byField[c.field]) byField[c.field].hunt.push(c)
+const by = {}
+for (const n of NAMES) by[n] = { a: null, b: null, suspects: [] }
+for (const r of [revA, revB]) if (r) {
+  for (const v of (r.verdicts || [])) if (by[v.field]) by[v.field][r === revA ? 'a' : 'b'] = v
+  for (const s of (r.suspects || [])) if (by[s.field]) by[s.field].suspects.push(s)
+}
 
 const final = {}
-const history = {}
-const changeLog = []
-const unsettled = new Set()
+const changes = []
+const unsettled = []
 const contested = []
 for (const n of NAMES) {
-  const x = byField[n]
-  const clean = x.a && x.b && x.a.verdict === 'APPROVE' && x.b.verdict === 'APPROVE' && !x.a.close_call && !x.b.close_call && x.hunt.length === 0
-  if (clean) final[n] = { ...x.a, reason: 'both independent reviewers approved with no hunter candidate' }
+  const x = by[n]
+  const agree = x.a && x.b && x.a.verdict === x.b.verdict && !x.a.close_call && !x.b.close_call && !x.suspects.length
+  if (agree && x.a.verdict === 'APPROVE') final[n] = { ...x.a, reason: 'both reviewers approved' }
   else contested.push(n)
 }
-log(`${contested.length} contested fields go to adjudication; ${NAMES.length - contested.length} settled by both reviewers`)
+log(`${contested.length} of ${NAMES.length} fields need a judge`)
 
-function dossier(n, extra) {
-  const x = byField[n]
-  return JSON.stringify({ field: n, kind: KIND[n], reviewer_a: x.a, reviewer_b: x.b, hunter: x.hunt, current: final[n] || null, earlier_rounds: history[n] || [], challenge: extra || null }, null, 1)
-}
 const terminal = (n, r) => r && r.verdict === 'REJECT' && KIND[n] !== 'verifier'
+function caseFor(n, extra) {
+  const x = by[n]
+  return JSON.stringify({ field: n, kind: KIND[n], reviewer_a: x.a, reviewer_b: x.b, suspects: x.suspects, current: final[n] || null, doubt: extra || null }, null, 1)
+}
+async function judge(n, tag, extra, note) {
+  return retry(i => agent(`${CTX}
 
-async function judgeWithConfirm(n, tag, base) {
-  const j1 = await retry(i => agent(base + `\n\nYou are judge 1.`, { label: `judge1:${n}:${tag}#${i}`, phase: 'Adjudicate', agentType: AGENT, schema: JUDGED }))
-  if (!j1 || !terminal(n, j1)) return j1
-  const j2 = await retry(i => agent(base + `\n\nYou are judge 2. Another judge reached REJECT, which ends the task. Decide independently; do not defer to it.`, { label: `judge2:${n}:${tag}#${i}`, phase: 'Adjudicate', agentType: AGENT, schema: JUDGED }))
+Judge (${tag}) for field "${n}". The reviewers' positions below are the two sides of the case. Decide the verdict under the bar by checking the deciding facts in the ledger (and the task file only if the ledger does not settle them). Weigh both errors: shipping a wrong task and terminating a correct one.${note ? ' ' + note : ''}
+
+Case:
+${caseFor(n, extra)}`, { label: `judge:${n}:${tag}#${i}`, phase: 'Judge', schema: JUDGED, effort: 'high' }))
+}
+// One judge per contested field. A second independent judge confirms any task-ending REJECT and any verdict that overturns both reviewers; a third settles a split.
+async function decide(n, tag, extra) {
+  const j1 = await judge(n, tag + '.1', extra)
+  if (!j1) return null
+  const x = by[n]
+  const overturn = x.a && x.b && x.a.verdict === x.b.verdict && x.a.verdict !== j1.verdict
+  const moved = final[n] && final[n].verdict !== j1.verdict
+  if (!terminal(n, j1) && !overturn && !moved) return j1
+  const j2 = await judge(n, tag + '.2', extra, 'Another judge has ruled; decide independently without deferring to it.')
   if (!j2) return null
   if (j2.verdict === j1.verdict) return j1
-  return retry(i => agent(base + `\n\nYou are judge 3. Two judges split on a task-ending REJECT.\nJudge 1: ${JSON.stringify(j1)}\nJudge 2: ${JSON.stringify(j2)}\nRe-derive the deciding fact from the files and settle it; name the fact that decides.`, { label: `judge3:${n}:${tag}#${i}`, phase: 'Adjudicate', agentType: AGENT, schema: JUDGED }))
+  return judge(n, tag + '.3', extra, `Two judges split. Judge 1: ${JSON.stringify(j1)}. Judge 2: ${JSON.stringify(j2)}. Settle it on the deciding fact and name that fact.`)
+}
+function apply(n, r, tag) {
+  if (!r) { unsettled.push(n); return }
+  const before = final[n] ? final[n].verdict : null
+  const x = by[n]
+  if (before && before !== r.verdict) changes.push(`${n}: ${before} → ${r.verdict} (${tag}): ${r.reason}`)
+  else if (!before && x.a && x.b && x.a.verdict === x.b.verdict && x.a.verdict !== r.verdict) changes.push(`${n}: both reviewers ${x.a.verdict}, judged ${r.verdict}: ${r.reason}`)
+  final[n] = r
 }
 
-async function adjudicate(n, tag, extra) {
-  const d = dossier(n, extra)
-  const [pro, con] = await parallel([
-    () => retry(i => agent(`${CTX}
-
-Prosecutor (${tag}), field "${n}". Make the strongest evidence-based case that this field must be REJECTED under the stakes above. Re-derive everything from the files; cite quoted locators and recomputed figures; for a verifier give the concrete counterexample. If no honest case exists, say so plainly.
-
-Dossier:
-${d}`, { label: `pro:${n}:${tag}#${i}`, phase: 'Adjudicate', agentType: AGENT })),
-    () => retry(i => agent(`${CTX}
-
-Defender (${tag}), field "${n}". Make the strongest evidence-based case that this field must be APPROVED under the stakes above (planned difficulty, a reasonable reading the prompt supports, a defect the authority order resolves, a counterexample that is not realistic). Re-derive everything from the files. If no honest case exists, say so plainly.
-
-Dossier:
-${d}`, { label: `con:${n}:${tag}#${i}`, phase: 'Adjudicate', agentType: AGENT })),
-  ])
-  return judgeWithConfirm(n, tag, `${CTX}
-
-Judge (${tag}), field "${n}". Decide the verdict yourself by re-deriving the deciding facts from the files; the briefs below are arguments, not evidence. Weigh both errors: shipping a wrong task and terminating a correct one. A non-verifier REJECT ends the task, so it needs a defect you have confirmed yourself that no reading of the sources, authority order or prompt resolves.
-
-Dossier:
-${d}
-
-Prosecutor:
-${pro || 'unavailable'}
-
-Defender:
-${con || 'unavailable'}`)
-}
-
-async function finalJudge(n) {
-  return judgeWithConfirm(n, 'final', `${CTX}
-
-Final judge, field "${n}". Earlier rounds did not settle this field. Read every earlier round below, re-derive the deciding fact from the files yourself, and give the verdict that survives the strongest case against it. Name the fact that decides.
-
-Dossier:
-${dossier(n)}`)
-}
-
-function record(n, r, tag) {
-  history[n] = (history[n] || []).concat([{ tag, verdict: r.verdict, reason: r.reason }])
-}
-function needsConfirmation(n, r) {
-  const x = byField[n]
-  return r.close_call || x.hunt.length > 0 || [x.a, x.b].some(v => !v || v.verdict !== r.verdict)
-}
-
-// Every queued field must reach the same verdict in two consecutive judgments; anything still moving after MAX_ROUNDS goes to a final judge.
-async function settle(names, extras, label) {
-  let queue = [...new Set(names)]
-  for (let round = 1; round <= MAX_ROUNDS && queue.length; round++) {
-    const tag = `${label}${round}`
-    const res = await parallel(queue.map(n => () => adjudicate(n, tag, extras ? extras[n] : null).then(r => ({ n, r }))))
-    const next = []
-    for (const x of res) {
-      if (!x) continue
-      if (!x.r) { unsettled.add(x.n); continue }
-      record(x.n, x.r, tag)
-      const prev = final[x.n]
-      if (!prev) {
-        final[x.n] = x.r
-        const rv = byField[x.n]
-        if ([rv.a, rv.b].every(v => v && v.verdict !== x.r.verdict)) changeLog.push(`${x.n}: both reviewers said ${rv.a.verdict}, judged ${x.r.verdict} (${tag}): ${x.r.reason}`)
-        if (needsConfirmation(x.n, x.r)) next.push(x.n)
-        continue
-      }
-      if (prev.verdict !== x.r.verdict) { changeLog.push(`${x.n}: ${prev.verdict} → ${x.r.verdict} (${tag}): ${x.r.reason}`); next.push(x.n) }
-      final[x.n] = x.r
-    }
-    queue = [...new Set(next)]
-    log(`${label} round ${round}: ${queue.length} fields need another judgment`)
-  }
-  for (const n of queue) {
-    const r = await finalJudge(n)
-    if (!r) { unsettled.add(n); continue }
-    record(n, r, 'final')
-    if (final[n] && final[n].verdict !== r.verdict) changeLog.push(`${n}: ${final[n].verdict} → ${r.verdict} (final judge): ${r.reason}`)
-    final[n] = r
-  }
-}
-
-phase('Adjudicate')
-await settle(contested, null, 'r')
+phase('Judge')
+const judged = await parallel(contested.map(n => () => decide(n, 'j').then(r => ({ n, r }))))
+for (const x of judged) if (x) apply(x.n, x.r, 'judge')
 
 phase('Challenge')
 const CHALLENGE = { type: 'object', properties: { doubts: { type: 'array', items: { type: 'object', properties: { field: FIELD, claim: { type: 'string' }, evidence: { type: 'string' } }, required: ['field', 'claim', 'evidence'] } } }, required: ['doubts'] }
-for (let c = 1; c <= 3; c++) {
+const focus = NAMES.filter(n => contested.includes(n) || (final[n] && final[n].verdict === 'REJECT'))
+if (focus.length) {
   const ch = await retry(i => agent(`${CTX}
 
-You are the user asking "are you sure every verdict is right?". Assume at least one is wrong and look for it: every APPROVE for a missed mis-grade (especially the External QC-lens defects), every REJECT for a false defect or one that a reading of the prompt or sources resolves, and every golden and non-verifier verdict twice, since those REJECTs end the task. Report only doubts you can evidence from the files.
+You are the user asking "are you sure?". Check these verdicts, especially every REJECT (a false defect terminates a correct task when it is not a verifier) and every close call, against the ledger. Report only doubts backed by a fact the judges missed; restating an argument already in the case is not a doubt.
 
-Current verdicts:
-${JSON.stringify(final, null, 1)}`, { label: `challenge:${c}#${i}`, phase: 'Challenge', agentType: AGENT, schema: CHALLENGE }))
-  if (!ch) { log(`challenge ${c} failed to run`); break }
+Verdicts:
+${JSON.stringify(focus.map(n => final[n] || { field: n, verdict: 'unsettled' }), null, 1)}`, { label: `challenge#${i}`, phase: 'Challenge', schema: CHALLENGE, effort: 'high' }))
   const grouped = {}
-  for (const d of (ch.doubts || [])) (grouped[d.field] = grouped[d.field] || []).push(d)
+  for (const d of ((ch && ch.doubts) || [])) (grouped[d.field] = grouped[d.field] || []).push(d)
   const names = Object.keys(grouped)
-  if (!names.length) { log(`challenge ${c}: no evidenced doubt`); break }
-  const before = changeLog.length
-  await settle(names, grouped, `c${c}.`)
-  log(`challenge ${c}: ${names.length} fields doubted, ${changeLog.length - before} verdict changes`)
-  if (changeLog.length === before) break
+  log(`challenge raised ${names.length} evidenced doubts`)
+  const res = await parallel(names.map(n => () => decide(n, 'c', grouped[n]).then(r => ({ n, r }))))
+  for (const x of res) if (x) apply(x.n, x.r, 'challenge')
 }
 
 phase('Write and check')
-const FIXES = { type: 'object', properties: { updates: { type: 'array', items: { type: 'object', properties: { field: FIELD, fix: { type: 'string' } }, required: ['field', 'fix'] } }, notes: { type: 'string' } }, required: ['updates'] }
-const rejects = NAMES.filter(n => final[n] && final[n].verdict === 'REJECT')
-if (rejects.length > 1) {
-  const fx = await retry(i => agent(`${CTX}
-
-Reconcile the fixes across these REJECT verdicts before anything is written: no two fixes may conflict, every figure, band or anchor that appears in more than one fix must be identical, each fix keeps its verifier's single construct, and the golden must still pass every changed criterion. Re-derive from the files. Return only the fixes you change, with the full corrected fix text; never change a verdict.
-
-${JSON.stringify(rejects.map(n => final[n]), null, 1)}`, { label: `reconcile-fixes#${i}`, phase: 'Write and check', agentType: AGENT, schema: FIXES }))
-  for (const u of ((fx && fx.updates) || [])) if (final[u.field]) final[u.field] = { ...final[u.field], fix: u.fix }
-}
-
 const ordered = NAMES.map(n => final[n] || { field: n, verdict: 'PENDING INPUT', ground: 'not settled', evidence: '', close_call: true })
 const WRITE = {
   type: 'object',
   properties: {
     lead: { type: 'string' },
-    entries: { type: 'array', items: { type: 'object', properties: { field: FIELD, verdict: { type: 'string', enum: ['APPROVE', 'REJECT', 'PENDING INPUT'] }, text: { type: 'string', description: 'the complete paste-ready entry, starting "<field> — <VERDICT>."' } }, required: ['field', 'verdict', 'text'] } },
+    entries: { type: 'array', items: { type: 'object', properties: { field: FIELD, verdict: { type: 'string', enum: ['APPROVE', 'REJECT', 'PENDING INPUT'] }, text: { type: 'string' } }, required: ['field', 'verdict', 'text'] } },
     optional_line: { type: 'string' },
     escalations: { type: 'array', items: { type: 'string' } },
     overall: { type: 'string' },
-    doubts: { type: 'array', items: { type: 'object', properties: { field: FIELD, reason: { type: 'string' } }, required: ['field', 'reason'] } },
   },
-  required: ['lead', 'entries', 'overall', 'doubts'],
+  required: ['lead', 'entries', 'overall'],
 }
-const writerBrief = `Write the platform-ready Final Review answers from the settled verdicts, using template F of 06 and C1–C8 of SKILL.md: a one-line lead (task_id, revision, deliverables); one entry per field below, in this exact order, each a short paragraph for Task Design, each source, the prompt and each golden deliverable, and one line per verifier with a template A note under each REJECT (reason, evidence with quoted locator, counterexample, "Fix:" with the exact change); one "Optional:" line; escalation lines; and the Overall line as SKILL.md specifies. Copy each verdict exactly; if you believe one is wrong, keep it and add the field to doubts.`
+const writeBrief = `Write the platform-ready Final Review answers from the settled verdicts, using template F of skills/project-omega-finance-review/references/06_output_templates.md and rules C1–C8 in SKILL.md (read only those sections): a one-line lead; one entry per field in this order, each starting "<field> — <VERDICT>."; a short paragraph for Task Design, each source, the prompt and each golden deliverable; one line per verifier, with a note under each REJECT (the defect, evidence with a quoted locator, the counterexample, "Fix:" with the exact change; make fixes that touch the same figure agree); one "Optional:" line; escalation lines; the Overall line. Copy every verdict exactly.`
 function codeCheck(w) {
-  const problems = []
-  const seen = {}
+  const p = [], seen = {}
   for (const e of (w.entries || [])) {
-    if (seen[e.field]) problems.push(`${e.field}: entry written twice`)
-    seen[e.field] = e
-    if (final[e.field] && e.verdict !== final[e.field].verdict) problems.push(`${e.field}: entry says ${e.verdict} but the settled verdict is ${final[e.field].verdict}`)
+    if (seen[e.field]) p.push(`${e.field}: entry written twice`)
+    seen[e.field] = 1
+    if (final[e.field] && e.verdict !== final[e.field].verdict) p.push(`${e.field}: says ${e.verdict}, settled verdict is ${final[e.field].verdict}`)
   }
-  for (const n of NAMES) if (!seen[n]) problems.push(`${n}: no entry`)
-  return problems
+  for (const n of NAMES) if (!seen[n]) p.push(`${n}: no entry`)
+  return p
 }
 function compose(w) {
-  const byF = {}
-  for (const e of (w.entries || [])) byF[e.field] = e.text
-  return [w.lead, ...NAMES.map(n => byF[n]), w.optional_line, ...(w.escalations || []), w.overall].filter(Boolean).join('\n\n')
+  const t = {}
+  for (const e of (w.entries || [])) t[e.field] = e.text
+  return [w.lead, ...NAMES.map(n => t[n]), w.optional_line, ...(w.escalations || []), w.overall].filter(Boolean).join('\n\n')
 }
-const material = `Settled verdicts:\n${JSON.stringify(ordered, null, 1)}\n\nEscalations raised: ${JSON.stringify([...(revA ? revA.escalations : []), ...(revB ? revB.escalations : [])])}\nMissing inputs: ${JSON.stringify(inv.missing_inputs)}`
-let w = await retry(i => agent(`${CTX}\n\n${writerBrief}\n\n${material}`, { label: `writer#${i}`, phase: 'Write and check', agentType: AGENT, schema: WRITE }))
-if (!w) return { stop: true, reason: 'writer failed', verdicts: ordered, changes: changeLog }
-if (w.doubts && w.doubts.length) {
-  const grouped = {}
-  for (const d of w.doubts) (grouped[d.field] = grouped[d.field] || []).push(d)
-  await settle(Object.keys(grouped), grouped, 'w')
-  const ordered2 = NAMES.map(n => final[n] || { field: n, verdict: 'PENDING INPUT', ground: 'not settled', evidence: '', close_call: true })
-  w = (await retry(i => agent(`${CTX}\n\n${writerBrief}\n\nSettled verdicts:\n${JSON.stringify(ordered2, null, 1)}`, { label: `writer2#${i}`, phase: 'Write and check', agentType: AGENT, schema: WRITE }))) || w
-}
+let w = await retry(i => agent(`${CTX}
 
-const QC = { type: 'object', properties: { pass: { type: 'boolean' }, problems: { type: 'array', items: { type: 'string' } } }, required: ['pass', 'problems'] }
-let qcProblems = []
-for (let k = 1; k <= 3; k++) {
-  const codeProblems = codeCheck(w)
-  const qc = await retry(i => agent(`${CTX}
-
-Auto QC pre-check. Run these answers against the five Final Review Auto QC checks in 09 §4 (cross-item consistency, note groundedness against the files, actionability, coverage completeness, decision/note coherence including polarity) and the pre-send checklist in 07, and check the Overall line against SKILL.md. Check every quote and figure against the files. List each concrete problem with the field and the exact change; pass is true only if there are none.
-
-Answers:
-${compose(w)}`, { label: `autoqc:${k}#${i}`, phase: 'Write and check', agentType: AGENT, schema: QC }))
-  qcProblems = [...codeProblems, ...(qc ? (qc.problems || []) : ['Auto QC pre-check failed to run'])]
-  if (!qcProblems.length) break
-  if (k === 3) break
-  const rev = await retry(i => agent(`${CTX}
-
-Revise these Final Review answers to fix every problem listed. Change wording only; every verdict must stay exactly as settled. Return every entry.
-
-Problems:
-${qcProblems.join('\n')}
+${writeBrief}
 
 Settled verdicts:
-${JSON.stringify(NAMES.map(n => ({ field: n, verdict: final[n] ? final[n].verdict : 'PENDING INPUT' })))}
+${JSON.stringify(ordered, null, 1)}
+Escalations: ${JSON.stringify([...((revA && revA.escalations) || []), ...((revB && revB.escalations) || [])])}
+Missing inputs: ${JSON.stringify(inv.missing_inputs)}`, { label: `writer#${i}`, phase: 'Write and check', schema: WRITE, effort: 'medium' }))
+if (!w) return { stop: true, reason: 'writer failed', verdicts: ordered, changes }
 
-Current answers (structured):
-${JSON.stringify(w, null, 1)}`, { label: `revise:${k}#${i}`, phase: 'Write and check', agentType: AGENT, schema: WRITE }))
+const QC = { type: 'object', properties: { problems: { type: 'array', items: { type: 'string' } } }, required: ['problems'] }
+let problems = []
+for (let k = 1; k <= 2; k++) {
+  const qc = await retry(i => agent(`${CTX}
+
+Auto QC pre-check. Test these answers against the five Final Review Auto QC checks in section 4 of skills/project-omega-finance-review/references/09_platform_checks_and_auto_qc.md (cross-item consistency, groundedness, actionability, coverage completeness, decision/note coherence). Check quotes and figures against the ledger. List each concrete problem with the field and the exact change, or none.
+
+Answers:
+${compose(w)}`, { label: `autoqc:${k}#${i}`, phase: 'Write and check', schema: QC, effort: 'medium' }))
+  problems = [...codeCheck(w), ...((qc && qc.problems) || (qc ? [] : ['pre-check failed to run']))]
+  if (!problems.length || k === 2) break
+  const rev = await retry(i => agent(`${CTX}
+
+Fix every problem below in these Final Review answers, changing wording only; every verdict stays as settled. Return every entry.
+
+Problems:
+${problems.join('\n')}
+
+Settled verdicts: ${JSON.stringify(NAMES.map(n => [n, final[n] ? final[n].verdict : 'PENDING INPUT']))}
+
+Answers:
+${JSON.stringify(w)}`, { label: `revise#${i}`, phase: 'Write and check', schema: WRITE, effort: 'medium' }))
   if (rev) w = rev
 }
 
-return {
-  answers: compose(w),
-  changes: changeLog,
-  unsettled: [...unsettled],
-  qc_problems: qcProblems,
-  settled_by_both_reviewers: NAMES.length - contested.length,
-  adjudicated: contested.length,
-}
+return { answers: compose(w), changes, unsettled, qc_problems: problems, judged: contested.length, settled_by_both_reviewers: NAMES.length - contested.length }
