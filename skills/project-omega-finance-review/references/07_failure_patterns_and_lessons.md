@@ -259,8 +259,8 @@ Read before every verdict. Each pattern is a failure from reviews of more than t
 - Evidence: the user asked "you sure you agree with all findings?" after every External QC round in the sessions (eleven); LHF finding 4 (the prompt asks how sensitive the answer "is to unresolved terms"), three MKT market findings and three KRD findings were then reversed to Disagree.
 
 ### F46. External QC fixes routed outside verifier.json
-- Rule: at External QC only verifier.json changes; take a sound verifier-only cure when one exists, and say in the first sentence when an agreed finding rejects the task.
-- Check: no fix request touches instruction.md, a source or the golden.
+- Rule: take a sound verifier-only cure when one exists; fix verifier items in tests/verifier.json with the verifier-json-fix skill, and touch the prompt, golden or data only for a defect that lives there, within the upload's same-task check.
+- Check: every prompt, golden or data change names the item whose defect lives in that file.
 - Evidence: LHF added a decision-summary sentence and NLR a scenario date to instruction.md; the user at HAL's verifier stage: "I can't change instruction.md, I am at the verifiers stage".
 
 ### F47. Grader faults agreed as true positives
@@ -284,7 +284,7 @@ Read before every verdict. Each pattern is a failure from reviews of more than t
 - Evidence: CUS v43, IDC v41, TRS v45 and KRD v47 had silently lost agreed fixes and gained whole-workbook judges, a duplicated judge model or a garbled "PASS only if " prefix.
 
 ### F51. Out-of-scope extras in an External QC answer
-- Rule: the fix request covers the agreed findings only; lost prior edits get one separate sentence; any other defect goes to the user in one line; a corrected file is given only on request.
+- Rule: the upload changes only feedback-named verifiers; anything else found goes on the next-round list and to the user in one line; a corrected file is given only on request or through the skill's upload zip.
 - Check: every edit in the request names the finding it resolves.
 - Evidence: MKT bundled five unraised Final Review fixes, a deleted verifier and re-scaled weights into a revised file; the user: "I am not gonna take your revised json, need to instruct the QC team… a single comment".
 
