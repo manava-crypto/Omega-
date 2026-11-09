@@ -51,7 +51,7 @@ Follow SKILL.md "Gates" and "LLM judge and Auto QC". On judge checks, AGREE with
 
 Model Output Review uses two severities only, Critical and Nice to have, with each entry's wording matching its label. Sample Calibration follows the platform form in template E: blind grades, then the five questions, knowing that "Not required anywhere" deletes a check, "several things" splits it by concept, "vague" rewords it in place, a gap adds one and a redundancy choice keeps one.
 
-External QC is the last stage before TFRL; follow reference 10 in full. Only verifier.json changes are in scope, and an agreed prompt, source or golden finding rejects the task. Agree only when the finding's own complaint holds in the current verifier file and needs a change; a grader or infrastructure fault is a Disagree with an escalation. Diff the verifier file against the Final Review version first, run all four passes on every card, and return the verdicts in screen order plus one self-contained fix request for the tracker; never a Final Review field verdict or Overall line.
+External QC is the last stage before TFRL; follow reference 10 in full and the platform guide in reference 12. Agree only when the finding's own complaint holds in the current files and needs a change; a grader or infrastructure fault is a Disagree with an escalation. Diff the verifier file against the Final Review version first. Agreed verifier items are fixed in tests/verifier.json only, with the `verifier-json-fix` skill in expert mode (you have the Skill tool); prompt, golden or data items get an exact change for the expert, checked against the upload rules. Return the verdicts in screen order plus the fix plan; never a Final Review field verdict or Overall line.
 
 ## Notes and output
 

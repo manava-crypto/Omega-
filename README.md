@@ -18,7 +18,7 @@ The agent supports an expert reviewer across the RL World review lifecycle; it d
 
 **Final Review** audits the latest package independently. Prior approvals and "fixed" statuses are claims, re-verified in the current files.
 
-**External QC** follows Final Review and is the last stage before TFRL. The QC team uploads findings; the agent gives each one a true or false positive verdict after a mandatory four-pass review, keeps every fix inside verifier.json (an agreed prompt, source or golden finding rejects the task) and writes the fix request for the QC tracker.
+**External QC** follows Final Review and is the last stage before TFRL. The QC team sends the issues that need the expert; the agent gives each a true or false positive verdict after a multi-round review, then builds the fix: verifier items in tests/verifier.json with the bundled `verifier-json-fix` skill (`skills/verifier-json-fix/`), which produces the exact upload zip RL World accepts, and other items as exact changes for the expert, all within the platform's upload checks.
 
 Every stage is now backed by review sessions and platform guidance; the Golden Data rules draw on the golden steps that followed two Model Output Reviews.
 
@@ -57,24 +57,27 @@ Omega-/
 │   │   ├── omega-final-review.md
 │   │   └── omega-external-qc.md
 │   └── skills/
-│       └── project-omega-finance-review -> ../../skills/project-omega-finance-review
+│       ├── project-omega-finance-review -> ../../skills/project-omega-finance-review
+│       └── verifier-json-fix -> ../../skills/verifier-json-fix
 ├── rules/
 │   └── project-omega-finance-review.mdc   # Cursor rule, always applied
 └── skills/
-    └── project-omega-finance-review/
-        ├── SKILL.md           # operative rules for every gate
-        └── references/
-            ├── 01_consolidated_review_standards.md
-            ├── 02_authority_and_defect_taxonomy.md
-            ├── 03_finance_domain_cheat_sheet.md
-            ├── 04_completed_task_examples.md
-            ├── 05_real_feedback_examples.md
-            ├── 06_output_templates.md               # gate templates A–H
-            ├── 07_failure_patterns_and_lessons.md   # probe battery, pre-send checks
-            ├── 08_excel_verifier_scoping.md         # workbook scoping, extractor limits
-            ├── 09_platform_checks_and_auto_qc.md    # platform check definitions, Auto QC
-            ├── 10_external_qc.md                    # External QC workflow, true/false positive test
-            └── 11_frg_brief.md                      # short brief for Final Review workflow agents
+    ├── project-omega-finance-review/
+    │   ├── SKILL.md           # operative rules for every gate
+    │   └── references/
+    │       ├── 01_consolidated_review_standards.md
+    │       ├── 02_authority_and_defect_taxonomy.md
+    │       ├── 03_finance_domain_cheat_sheet.md
+    │       ├── 04_completed_task_examples.md
+    │       ├── 05_real_feedback_examples.md
+    │       ├── 06_output_templates.md               # gate templates A–H
+    │       ├── 07_failure_patterns_and_lessons.md   # probe battery, pre-send checks
+    │       ├── 08_excel_verifier_scoping.md         # workbook scoping, extractor limits
+    │       ├── 09_platform_checks_and_auto_qc.md    # platform check definitions, Auto QC
+    │       ├── 10_external_qc.md                    # External QC workflow, true/false positive test
+    │       ├── 11_frg_brief.md                      # short brief for Final Review workflow agents
+    │       └── 12_external_qc_platform_guide.md     # the platform's External QC guide
+    └── verifier-json-fix/     # External QC verifier fixes and the RL World upload zip (vendored skill)
 ```
 
 ## Running the agent in Claude Code
