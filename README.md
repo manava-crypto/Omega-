@@ -18,7 +18,7 @@ The agent supports an expert reviewer across the RL World review lifecycle; it d
 
 **Final Review** audits the latest package independently. Prior approvals and "fixed" statuses are claims, re-verified in the current files.
 
-**External QC** follows Final Review and is the last stage before TFRL. The QC team sends the issues that need the expert; the agent gives each a true or false positive verdict after a multi-round review, then builds the fix: verifier items in tests/verifier.json with the bundled `verifier-json-fix` skill (`skills/verifier-json-fix/`), which produces the exact upload zip RL World accepts, and other items as exact changes for the expert, all within the platform's upload checks.
+**External QC** follows Final Review and is the last stage before TFRL. The QC team sends the issues that need the expert; the agent gives each a true or false positive verdict after a multi-round review, then builds the fix: verifier items in tests/verifier.json with the bundled `verifier-fix-trainer` skill (`skills/verifier-fix-trainer/`), which needs only the task zip and QC's with-runs zip, shows the author every changed check and builds the upload zip after their OK, and other items as exact changes for the expert, all within the platform's upload checks.
 
 Every stage is now backed by review sessions and platform guidance; the Golden Data rules draw on the golden steps that followed two Model Output Reviews.
 
@@ -58,7 +58,7 @@ Omega-/
 │   │   └── omega-external-qc.md
 │   └── skills/
 │       ├── project-omega-finance-review -> ../../skills/project-omega-finance-review
-│       └── verifier-json-fix -> ../../skills/verifier-json-fix
+│       └── verifier-fix-trainer -> ../../skills/verifier-fix-trainer
 ├── rules/
 │   └── project-omega-finance-review.mdc   # Cursor rule, always applied
 └── skills/
@@ -77,7 +77,7 @@ Omega-/
     │       ├── 10_external_qc.md                    # External QC workflow, true/false positive test
     │       ├── 11_frg_brief.md                      # short brief for Final Review workflow agents
     │       └── 12_external_qc_platform_guide.md     # the platform's External QC guide
-    └── verifier-json-fix/     # External QC verifier fixes and the RL World upload zip (vendored skill)
+    └── verifier-fix-trainer/  # External QC verifier fixes and the upload zip (vendored skill, v1.0)
 ```
 
 ## Running the agent in Claude Code
