@@ -1,7 +1,7 @@
 export const meta = {
   name: 'omega-external-qc',
-  description: 'Project Omega External QC: one shared evidence ledger with the run snapshot, two independent verdicts per item, judges only where verdicts are in doubt, an "are you sure" pass, then verdict-locked template H answers and a fix plan for the verifier-json-fix skill',
-  whenToUse: 'Run from /omega-external-qc once the fresh RL World download, the QC feedback file and the runs zip are saved.',
+  description: 'Project Omega External QC: one shared evidence ledger from QC\'s with-runs zip, two independent verdicts per item, judges only where verdicts are in doubt, an "are you sure" pass, then verdict-locked template H answers and a fix plan for the verifier-fix-trainer skill',
+  whenToUse: 'Run from /omega-external-qc once the task zip, QC\'s ...-dataos-with-runs.zip and the pasted items are saved.',
   phases: [
     { title: 'Ledger', detail: 'match the screen, list every item, build one shared evidence ledger' },
     { title: 'Review', detail: 'two independent verdict sets from the ledger' },
@@ -11,11 +11,11 @@ export const meta = {
   ],
 }
 
-// args: { pack_dir, findings_file, feedback_json?, runs_zip?, prior_verifier_file?, prior_notes_file?, scratch_dir, user_notes? }
+// args: { pack_dir, task_zip, runs_zip, findings_file?, work_dir, prior_verifier_file?, prior_notes_file?, scratch_dir, user_notes? }
 const A = args || {}
 const S = v => (v == null ? '' : typeof v === 'string' ? v : JSON.stringify(v))
 const LEDGER = `${S(A.scratch_dir)}/xqc_ledger`
-const CTX = `Task download (unzipped copy): ${S(A.pack_dir)}. External QC items as pasted: ${S(A.findings_file)}. QC feedback file: ${A.feedback_json ? S(A.feedback_json) : 'not supplied'}. Runs zip: ${A.runs_zip ? S(A.runs_zip) : 'not supplied'}. Final Review verifier file: ${A.prior_verifier_file ? S(A.prior_verifier_file) : 'not supplied'}. Final Review notes: ${A.prior_notes_file ? S(A.prior_notes_file) : 'not supplied'}. ${A.user_notes ? 'User notes: ' + S(A.user_notes) + '.' : ''}
+const CTX = `Task (unzipped copy): ${S(A.pack_dir)}. Task zip: ${S(A.task_zip)}. QC's with-runs zip (the DataOS run with the reviews): ${S(A.runs_zip)}. External QC items as pasted: ${A.findings_file ? S(A.findings_file) : 'not pasted; the items are the review findings'}. Fix folder: ${S(A.work_dir)} (FINDINGS.md, RUNS.md and SWEEP.md from the verifier-fix-trainer skill). Final Review verifier file: ${A.prior_verifier_file ? S(A.prior_verifier_file) : 'not supplied'}. Final Review notes: ${A.prior_notes_file ? S(A.prior_notes_file) : 'not supplied'}. ${A.user_notes ? 'User notes: ' + S(A.user_notes) + '.' : ''}
 Read §1 to §3 of skills/project-omega-finance-review/references/10_external_qc.md first; it replaces the full rulebook for this job. The shared evidence ledger is ${LEDGER}_A.md and ${LEDGER}_B.md: rely on it, and open a task file only to confirm or extend a fact it does not settle. Never write into the repository or into the download.
 The test: Agree (true positive) only when the item's own complaint, tested on its own example of a correct answer, holds in the current files and needs a change; Disagree (false positive) when it does not, including every grader or infrastructure fault. The category tag never decides. Prefer a sound verifier-only cure; a prompt, golden or data change is the expert's and must pass the upload checks (same task, no removed content, grading no easier).`
 
@@ -36,7 +36,7 @@ const INVENTORY = {
 }
 const inv = await retry(i => agent(`${CTX}
 
-Inventory only. Match the screen with the files (task ID, version, item count). List every item that needs an answer, in screen order, with its exact header, category, criteria, complaint, its example of a correct answer and its remediation, quoting it; skip items marked Pass. No verdicts.`, { label: `inventory#${i}`, phase: 'Ledger', schema: INVENTORY, effort: 'low' }))
+Inventory only. Match the screen with the files (task ID, version, item count); where no screen was pasted, the items are the findings in the fix folder's FINDINGS.md once it exists, else the reviews under verifications/ in the with-runs zip. List every item that needs an answer, in screen order, with its exact header, category, criteria, complaint, its example of a correct answer and its remediation, quoting it; skip items marked Pass. No verdicts.`, { label: `inventory#${i}`, phase: 'Ledger', schema: INVENTORY, effort: 'low' }))
 if (!inv) return { stop: true, reason: 'inventory failed' }
 if (inv.mismatch) return { stop: true, reason: 'mismatch: ' + inv.mismatch_reason }
 const HEADERS = inv.cards.map(c => c.header)
@@ -51,7 +51,7 @@ Items:
 ${cardList}`, { label: `ledger:A#${i}`, phase: 'Ledger', effort: 'medium' })),
   () => retry(i => agent(`${CTX}
 
-Build ledger part B at ${LEDGER}_B.md. If a runs zip is supplied, run python -X utf8 skills/verifier-json-fix/scripts/task_snapshot.py on it (unzipped into a new folder under the scratch directory) with --reasons, and record per named criterion each run's pass or fail, the judges' reasons and the oracle result. If a Final Review verifier file is supplied, diff it against the current tests/verifier.json and list agreed edits that did not land and changes nobody requested. Facts only.
+Build ledger part B at ${LEDGER}_B.md. Unless ${S(A.work_dir)}/FINDINGS.md already exists, run python -X utf8 skills/verifier-fix-trainer/scripts/trainer_fix.py start ${S(A.task_zip)} ${S(A.runs_zip)} --work ${S(A.work_dir)}. From its FINDINGS.md, RUNS.md and SWEEP.md record per named criterion each finding's evidence and suggested fix, each run's pass or fail with the judges' reasons, the oracle result, and the same-family verifiers SWEEP.md lists. If a Final Review verifier file is supplied, diff it against the current tests/verifier.json and list agreed edits that did not land and changes nobody requested. Facts only.
 
 Items:
 ${cardList}`, { label: `ledger:B#${i}`, phase: 'Ledger', effort: 'medium' })),
@@ -170,12 +170,12 @@ const WRITE = {
   properties: {
     lead: { type: 'string' },
     entries: { type: 'array', items: { type: 'object', properties: { header: HEADER, verdict: { type: 'string', enum: ['AGREE', 'DISAGREE'] }, text: { type: 'string' } }, required: ['header', 'verdict', 'text'] } },
-    fix_plan: { type: 'string', description: 'verifier items for the verifier-json-fix skill, then prompt, golden or data changes for the expert; empty when nothing is agreed' },
+    fix_plan: { type: 'string', description: 'verifier items (with any same-family siblings) for the verifier-fix-trainer skill, then prompt, golden or data changes for the author; empty when nothing is agreed' },
     escalations: { type: 'array', items: { type: 'string' } },
   },
   required: ['lead', 'entries', 'fix_plan'],
 }
-const writeBrief = `Write the External QC answers from the settled verdicts using template H of skills/project-omega-finance-review/references/06_output_templates.md and rules C1–C8 in SKILL.md (read only those sections): a one-paragraph lead (outcome, tally, closest call); one entry per item in this order, headed exactly as on screen; the fix plan (verifier items as the brief for the verifier-json-fix skill, with the agreed change per item; prompt, golden or data items as exact changes for the expert, each checked against the upload rules); escalation lines. Copy every verdict exactly.`
+const writeBrief = `Write the External QC answers from the settled verdicts using template H of skills/project-omega-finance-review/references/06_output_templates.md and rules C1–C8 in SKILL.md (read only those sections): a one-paragraph lead (outcome, tally, closest call); one entry per item in this order, headed exactly as on screen; the fix plan (verifier items as the agreed change per item for the verifier-fix-trainer skill, with any same-family siblings flagged as not named by QC; prompt, golden or data items as exact changes for the expert, each checked against the upload rules); escalation lines. Copy every verdict exactly.`
 function codeCheck(w) {
   const p = [], seen = {}
   for (const e of (w.entries || [])) { if (seen[e.header]) p.push(`${e.header}: written twice`); seen[e.header] = 1; if (final[e.header] && e.verdict !== final[e.header].verdict) p.push(`${e.header}: says ${e.verdict}, settled verdict is ${final[e.header].verdict}`) }
@@ -195,7 +195,7 @@ if (!w) return { stop: true, reason: 'writer failed', verdicts: HEADERS.map(h =>
 const QC = { type: 'object', properties: { problems: { type: 'array', items: { type: 'string' } } }, required: ['problems'] }
 const qc = await retry(i => agent(`${CTX}
 
-Pre-send check (Pass 4 of reference 10). Check every quote and figure against the ledger, each header against the screen, that every button word matches its note, that verifier changes touch only feedback-named verifiers and every other change passes the upload checks, and that there are no Final Review field verdicts or Overall line. List each concrete problem with the exact change, or none.
+Pre-send check (Pass 4 of reference 10). Check every quote and figure against the ledger, each header against the screen, that every button word matches its note, that every verifier change QC did not name is a same-family sibling flagged for the author and every other change passes the upload checks, and that there are no Final Review field verdicts or Overall line. List each concrete problem with the exact change, or none.
 
 Answers:
 ${compose(w)}`, { label: `presend#${i}`, phase: 'Write and check', schema: QC, effort: 'medium' }))

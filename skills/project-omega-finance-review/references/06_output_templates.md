@@ -255,17 +255,17 @@ Example (ACL; accepted):
 
 ## H. External QC
 
-The stage after Final Review; reference 10 holds the workflow, the true or false positive test and the multi-pass review, and `12_external_qc_platform_guide.md` the platform's own steps. Verifier fixes are built with the `verifier-json-fix` skill.
+The stage after Final Review; reference 10 holds the workflow, the true or false positive test and the multi-pass review, and `12_external_qc_platform_guide.md` the platform's own steps. Verifier fixes are built with the `verifier-fix-trainer` skill.
 
 1. Lead, one short paragraph: the outcome (every item disagreed, so the task is approved; or a fix and upload this round), the tally, and the closest call.
 2. One entry per item, in screen order, headed exactly as on screen: "Review 900309453 · finding 1 — AGREE." An Agree is one or two sentences: the defect present now with its quoted locator, any corrected side claim, the file the fix goes in, and "Changed from the Final Review APPROVE because …" where that applies. A Disagree is one paragraph, two at most: why the finding's own complaint does not hold, the proof (criterion quote, prompt clause, source cell or figure) and "No change needed."; a grader or infrastructure fault adds a template G line. A bundled card names each listed criterion that is a false positive. Items marked Pass get no entry.
-3. Fix plan, only when something is agreed. Verifier items: the brief for the `verifier-json-fix` skill (the fresh download, the feedback file, the runs zip) with the agreed change per item. Prompt, golden or data items: the file and the exact change the expert makes, each checked against the upload rules (same files, platform files untouched, no emptied or broken document, the verifier count kept within the platform's stated range, and no change that removes content, changes the ask, makes grading easier or contradicts the data).
-4. After the skill's round: its upload file name, its one line per QC item (the text to paste where RL World asks what changed) and its next-round list.
+3. Fix plan, only when something is agreed. Verifier items: the agreed change per item for the `verifier-fix-trainer` skill, which needs only the task zip and QC's `…-dataos-with-runs.zip`. Prompt, golden or data items: the file and the exact change the author makes on RL World, each checked against the upload rules (same files, platform files untouched, no emptied or broken document, the verifier count kept within the platform's stated range, and no change that removes content, changes the ask, makes grading easier or contradicts the data).
+4. The skill's list for the author, before any upload file exists: each check changed, added or removed, with what QC found, what it said and what it says now, and the same-family checks it changed that QC did not name. Build the upload file only after the author says OK, then give its name (`fix_<task>/fixed/<same zip name>`) and anything that is the author's to fix.
 5. Escalation lines, then nothing else: no Final Review field verdicts and no Overall line.
 
 Example (lxwjwnav-1, restated to this template; quotes and dates from the session, replacement wording illustrative):
 
-> AGREE on all three items: one verifier defect, fixed this round with the verifier-json-fix skill. The closest call is that the cited runs dated actions from a sandbox clock reading 28 October, an infrastructure fault escalated below; the Agree rests on the criterion's fixed cutoff, which the prompt never states and which also fails a plan dated from the source Close Calendar.
+> AGREE on all three items: one verifier defect, fixed this round with the verifier-fix-trainer skill. The closest call is that the cited runs dated actions from a sandbox clock reading 28 October, an infrastructure fault escalated below; the Agree rests on the criterion's fixed cutoff, which the prompt never states and which also fails a plan dated from the source Close Calendar.
 >
 > Review 355952 · finding 1 — AGREE. deck_close_action_plan requires "each with a specific calendar date on or before 20 October 2026", a date the prompt never states, and the source Close Calendar itself schedules "Distribute final close book" on 21 October, so a correct plan dated from the calendar fails. Fix in tests/verifier.json.
 >
